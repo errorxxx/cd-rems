@@ -1,4 +1,4 @@
-package com.cd.rems.service.imp;
+package com.cd.rems.service.Impl;
 
 import com.cd.rems.dao.TBuildingcarparkMapper;
 import com.cd.rems.entity.TBuildingcarpark;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class ICarparkService implements CarparkService {
+public class CarparkServiceImpl implements CarparkService {
     @Autowired
     TBuildingcarparkMapper mapper;
 
