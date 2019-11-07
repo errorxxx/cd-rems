@@ -17,6 +17,7 @@ class CdRemsServiceApplicationTests {
     @Test
     void contextLoads() {
         List<TBuildingcarpark> tBuildingcarparks = service.listAll();
+        
         if (null != tBuildingcarparks) {
             for (TBuildingcarpark park : tBuildingcarparks) {
                 System.out.println(park);
