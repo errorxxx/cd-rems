@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.cd.rems.api.UserApi;
 import com.cd.rems.entity.TUser;
 import com.cd.rems.service.Impl.UserServiceImpl;
+import com.cd.rems.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,7 @@ import java.util.List;
 @Component
 public class UserApiImpl implements UserApi {
     @Autowired
-    UserServiceImpl userService;
+    UserService userService;
 
     @Override
     public List<TUser> selectAll() {

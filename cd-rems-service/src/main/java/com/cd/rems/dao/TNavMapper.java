@@ -45,4 +45,5 @@ public interface TNavMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(TNav record);
+    List<TNav> getAllVisibleMenuByType(TNav nav);
 }

@@ -80,4 +80,8 @@
     permissionTag
     from t_nav
   </select>
+  <!-- 根据导航类型获取全部可见导航菜单 -->
+  <select id="getAllVisibleMenuByType" resultMap="BaseResultMap">
+		select * from t_nav where navType=#{navtype} and isVisible=1 order by navNum
+	</select>
 </mapper>
