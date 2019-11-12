@@ -207,7 +207,7 @@ var vm_function = new Vue({
     methods: {
         /**获取该用户授权菜单*/
         getFunctionsByUser: function () {
-            this.$resource("../api/menus/listByUserId").query().then(function(response){
+            this.$resource("../nav/listByUserId").query().then(function(response){
                 this.funcs = response.data[0];
                 //数据加载完后渲染左侧菜单
                 Vue.nextTick(function(){
