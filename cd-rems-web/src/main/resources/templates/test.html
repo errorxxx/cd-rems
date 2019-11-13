@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人创收汇总统计</title>
+    <link rel="stylesheet" href="element-ui/lib/theme-chalk/index.css"
+          media="all" />
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        .current-row > td {
+            background: rgba(0, 158, 250, 0.219) !important;
+        }
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #808080;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-corner {
+            background: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div id="vueObject"  v-cloak   style="overflow: hidden">
+    <el-form :inline="true" :model="queryModel" size="mini">
+        <el-form-item>
+            <el-button type="success" icon="el-icon-search" @click="searchDetails" v-show="authority.showSearch">查询</el-button>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="warning" icon="el-icon-printer" @click="print" v-show="authority.showPrint">打印</el-button>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary"  icon="el-icon-download" @click="exportExcel" v-show="authority.showExport">导出</el-button>
+        </el-form-item>
+        <el-form-item >
+            <div class="block">
+                <span class="demonstration">开始日期</span>
+                <el-date-picker
+                        v-model="startTime"
+                        type="date"
+                        placeholder="选择开始日期" @change="startTimeChange" >
+                </el-date-picker>
+            </div>
+        </el-form-item>
+        <el-form-item >
+            <div class="block">
+                <span class="demonstration">结束日期</span>
+                <el-date-picker
+                        v-model="endTime"
+                        type="date"
+                        placeholder="选择结束日期" @change="endTimeChange" >
+                </el-date-picker>
+            </div>
+        </el-form-item>
+        <el-form-item>
+            <span class="demonstration">保健师</span>
+            <el-select v-model="employee" placeholder="保健师" clearable @change="onSelectedEmp" filterable :filter-method="findEmployeeByPY">
+                <el-option
+                        v-for="item in options"
+                        :key="item.employeeNo"
+                        :label="item.hcnoAndName"
+                        :value="item.employeeName">
+                </el-option>
+            </el-select>
+        </el-form-item>
+    </el-form>
+    <div>
+        <el-table :data="personIncomeList" size='mini' border ref="multipleTable"
+                  @selection-change="addPersonIncomeMes" :height="tableHeight"
+                  highlight-current-row stripe style="width: 100%;margin-top:0">
+            <el-table-column type="index" label=' ' width="40" align="center"></el-table-column>
+            <el-table-column
+                    type="selection"
+                    width="55">
+            </el-table-column>
+            <el-table-column prop="employeeno" label="工号" align="center" show-overflow-tooltip sortable></el-table-column>
+            <el-table-column prop="employeename" label="姓名" align="center" show-overflow-tooltip ></el-table-column>
+            <el-table-column prop="excutetime" label="日期" align="center" show-overflow-tooltip sortable></el-table-column>
+            <el-table-column prop="personCount" label="人次" align="center" show-overflow-tooltip></el-table-column>
+            <el-table-column prop="sumAmount" label="金额" align="center" show-overflow-tooltip></el-table-column>
+        </el-table>
+        <!--<el-pagination-->
+                <!--@size-change="handleSizeChange"-->
+                <!--@current-change="handleCurrentChange"-->
+                <!--:current-page="pageInfo.currentPage"-->
+                <!--:page-sizes="[5, 10, 20, 40]"-->
+                <!--:page-size="pageData.pageSize"-->
+                <!--layout="total, sizes, prev, pager, next, jumper"-->
+                <!--:total="pageData.total">-->
+        <!--</el-pagination>-->
+    </div>
+
+</div>
+
+<script src="jquery/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="vue/vue.js"></script>
+<script src="vue/vue-resource.js"></script>
+<script type="text/javascript" src="element-ui/lib/index.js"></script>
+<script type="text/javascript" src="js/util.js"></script>
+<!--<script src="../../../../js/cds/CDSOtherFunction/CDSPerIncomeSumStatic.js"></script>-->
+</body>
+</html>

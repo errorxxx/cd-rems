@@ -66,34 +66,6 @@ public class MenuUtils {
         return parents;
     }
 
-    public static List<TreeModel> getTreesLeafChildrenNull(List<TreeModel> menus, int topParents) {
-        if (menus == null) {
-            return menus;
-        }
-        List<TreeModel> parents = getParents(menus, topParents);
-        parents = addChildMenusChildrenNull(parents, menus);
-        return parents;
-    }
 
-    private static List<TreeModel> addChildMenusChildrenNull(List<TreeModel> parents, List<TreeModel> menus) {
-        for (TreeModel p : parents) {
-            int pid = p.getId();
-            List<TreeModel> childMenus = new ArrayList<>();
-
-            Iterator<TreeModel> mi = menus.iterator();
-            while (mi.hasNext()) {
-                TreeModel child = mi.next();
-                if (pid==child.getParentId()) {
-                    if (p.getChildren() == null) {
-                        p.setChildren(childMenus);
-                    }
-                    childMenus.add(child);
-                    mi.remove();
-                }
-            }
-            addChildMenusChildrenNull(childMenus, menus);
-        }
-        return parents;
-    }
 
 }

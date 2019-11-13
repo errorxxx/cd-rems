@@ -72,11 +72,11 @@ public class NavController {
                 tree.setDisabled(sm.getIsvisible());
                 String url = sm.getNavurl();
                 if (StringUtils.isNotEmpty(url)) {
-                    if (url.indexOf("?") > -1) {
-                        url += "&menuId=" + sm.getNavid() + "&t=" + System.currentTimeMillis();
-                    } else {
-                        url += "?menuId=" + sm.getNavid() + "&t=" + System.currentTimeMillis();
-                    }
+//                    if (url.indexOf("?") > -1) {
+//                        url += "&menuId=" + sm.getNavid() + "&t=" + System.currentTimeMillis();
+//                    } else {
+//                        url += "?menuId=" + sm.getNavid() + "&t=" + System.currentTimeMillis();
+//                    }
                 }
 
                 tree.setHref(url);
