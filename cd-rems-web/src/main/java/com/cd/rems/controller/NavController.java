@@ -6,6 +6,8 @@ import com.cd.rems.api.NavApi;
 import com.cd.rems.entity.TNav;
 import com.cd.rems.entity.TreeModel;
 import com.cd.rems.utils.MenuUtils;
+import com.cd.rems.utils.RetCode;
+import com.cd.rems.utils.RetResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -13,10 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 @RestController
 @RequestMapping("/nav")
@@ -31,19 +31,37 @@ public class NavController {
      */
     @RequestMapping("/getAllVisibleMenuByType")
     @ResponseBody
-    public Map<String, Object> getAllVisibleMenuByType() {
-        TNav nav = new TNav();
+    public RetResult getAllVisibleMenuByTypeAndUser( HttpServletRequest request) {
+        TNav navEntity = new TNav();
         //if(navBean != null){
-        //navEntity.setNavType(navBean.getNavType());//菜单类型 1-后台导航菜单，2-前台导航菜单，3-移动端导航菜单
+            navEntity.setNavtype((short)1);//菜单类型 1-后台导航菜单，2-前台导航菜单，3-移动端导航菜单
         //}
-        nav.setNavtype(Short.valueOf("1"));
-        List<TNav> navEntities = navApi.getAllVisibleMenuByType(nav);
-        Map<String, Object> result = new HashMap<String, Object>();
-        result.put("data", navEntities);
-        result.put("count", navEntities.size());
-        result.put("code", 0);
-        result.put("msg", "");
-        return result;
+        List<TNav> navEntities = navApi.getAllVisibleMenuByType(navEntity);
+        List<TNav> navMenu = new ArrayList<>();
+        //String userName = (String)request.getSession().getAttribute("username");
+        //Set<String> permissions = userService.getPermissions(userName);
+        List<Integer> cid = new ArrayList<>();
+        List<Integer> navcIds = new ArrayList<>();
+        Map<String,Object> map = new HashMap<>();
+//        for(String permis : permissions){
+//            if(permis.indexOf(":") > 0){
+//                int navcId = Integer.parseInt(permis.split(":")[0]);
+//                cid.add(navcId);
+//            }
+//        }
+//        for(int i = 0;i < cid.size();i++){
+//            if(!navcIds.contains(cid.get(i))){
+//                navcIds.add(cid.get(i));
+//            }
+//        }
+        for(int i = 0; i < navEntities.size(); i++){
+            //if(navcIds.contains(navEntities.get(i).getcId())){
+                navMenu.add(navEntities.get(i));
+            //}
+        }
+        map.put("navMenu", navMenu);
+        //map.put("navcIds", navcIds);
+        return new RetResult(RetCode.SUCCESS.getCode(),"success",navMenu);
     }
 
 
@@ -65,7 +83,7 @@ public class NavController {
             List<TNav> navEntities = navApi.getAllVisibleMenuByType(nav);
             for (TNav sm : navEntities) {
                 TreeModel tree = new TreeModel();
-                tree.setId(sm.getNavid());
+                tree.setId(sm.getCid());
                 tree.setTitle(sm.getNavtitle());
                 tree.setParentId(sm.getPid());
                 tree.setIcon(sm.getNavimg() == null ? "" : sm.getNavimg());

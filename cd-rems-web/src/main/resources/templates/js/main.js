@@ -2,7 +2,6 @@
  * Created by Tanjinchuan 2018/11/22
  */
 var websocket = null;//websocket实体
-
 $(function () {
     //iframe自适应
     $(window).on('resize', function () {
@@ -12,7 +11,6 @@ $(function () {
             $(this).height($content.height());
         });
     }).resize();
-
     //隐藏显示菜单
     $('.admin-side-toggle').on('click', function () {
         var sideWidth = $('#admin-side').width();
@@ -194,7 +192,105 @@ var vm_user = new Vue({
         }
     }
 })
+/**
+ * 获取后台所有导航菜单
+ */
+function getAllBackModuleMenu(){
+    var navType = 1;//1表示后台，2表示前台，3移动端
+    $.post(contextPath +"/nav/getAllVisibleMenuByType",
+        {navType:navType},
+        showAllPCModuleMenu,"json")
+}
+function treeHtml(arr, rootId) {
+    var getHtmlFn = function(arrNodes, pid) {
+        var childNodes = [];
+        for (var i = 0; i < arrNodes.length; i++) {
+            if (arrNodes[i].pid === pid) {
+                childNodes.push(arrNodes[i]);
+            }
+        }
+        var moduleName = "";
+        if (childNodes && childNodes.length > 0) {
+            var tempHTML = '<dl class="layui-nav-child">';
+            for (var j = 0; j < childNodes.length; j++) {
+                var navUrl;
+                if(childNodes[j].navurl == "javascript:;"){
+                    navUrl =  childNodes[j].navurl;
+                }else{
+                    navUrl = contextPath + childNodes[j].navurl;
+                }
+                if(getHtmlFn(arr, childNodes[j].cid)){
+                    tempHTML += '<dd data-name="'+childNodes[j].cid+'" class="layui-nav-itemed">'
+                        + '<a href="javascript:;">'+childNodes[j].navtitle
+                        +'</a>'+ getHtmlFn(arr, childNodes[j].cid)+'</dd>';
+                }else{
+                    tempHTML += '<dd data-name="'+childNodes[j].cid+'" >'
+                        + '<a lay-href="'+navUrl+'">'+childNodes[j].navtitle
+                        +'</a>'+ getHtmlFn(arr, childNodes[j].cid)+'</dd>';
+                }
 
+            }
+            tempHTML += '</dl>';
+            return tempHTML;
+        }
+        return '';
+    }
+    var treeHtml = getHtmlFn(arr, rootId);
+    return treeHtml;
+}
+
+function showAllPCModuleMenu(result){
+    var modules = result.data;//导航菜单集合
+    var navcIds = result.data.navcIds;//用户权限中菜单cId
+    var pIdArr = new Array();//二级菜单pId集合
+    for(var i = 0; i < modules.length; i++){
+        if(modules[i].navlevel == 2){
+            pIdArr[i] = modules[i].pid;
+        }
+    }
+    var str = "";
+    str += '<li data-name="home" class="layui-nav-item layui-nav-itemed layui-this">'
+        + '<a href="javascript:;" lay-tips="主页" lay-direction="2">'
+        + '<i class="layui-icon layui-icon-home"></i>'
+        + '<cite>主页</cite>'
+        + '</a>'
+        + '</li>';
+    for(var i = 0;i < modules.length; i++){
+        if(pIdArr.indexOf(modules[i].cid) < 0 && modules[i].navlevel == 1){//只有一级菜单
+            var navUrl;
+            if(modules[i].navurl == "javascript:;"){
+                navUrl =  modules[i].navurl;
+            }else{
+                navUrl = contextPath + modules[i].navurl;
+            }
+            str += '<li data-name="'+modules[i].cid+'" class="layui-nav-item">'
+                + '<a href="javascript:;" lay-href="'+navUrl+'" lay-tips="'+modules[i].navtitle+'" lay-direction="2">'
+                + '<i class="layui-icon layui-icon-app"></i>'
+                + '<cite>'+modules[i].navtitle+'</cite>'
+                + '</a></li>';
+        }else{
+            if(modules[i].navlevel == 1){
+                str += '<li data-name="'+modules[i].cid+'" class="layui-nav-item">'
+                    + '<a href="javascript:;" lay-tips="'+modules[i].navtitle+'" lay-direction="2">'
+                    + '<i class="layui-icon layui-icon-app"></i>'
+                    + '<cite>'+modules[i].navtitle+'</cite>'
+                    + '</a>'+treeHtml(modules,modules[i].cid)+'</li>';
+            }
+        }
+    }
+    $("#LAY-system-side-menu").html(str);
+    initLayUi();
+}
+/**
+ * 初始化layui
+ */
+function initLayUi(){
+    layui.use(['layer', 'element'], function () {
+        var layer = layui.layer, element = layui.element;
+        var layFilter = $("#LAY-system-side-menu").attr('lay-filter');
+        element.render('nav',layFilter);
+    });
+}
 /**
  *显示左侧菜单
  */
@@ -208,9 +304,11 @@ var vm_function = new Vue({
         getFunctionsByUser: function () {
             this.$resource(contextPath + "/nav/listByUserId").query().then(function(response){
                 this.funcs = response.data[0];
+
                 //数据加载完后渲染左侧菜单
                 Vue.nextTick(function(){
-                	vm_function.renderNavTree();
+                	//vm_function.renderNavTree();
+                    getAllBackModuleMenu();
                 })
             }).catch(function(error){
             })
@@ -228,7 +326,7 @@ var vm_function = new Vue({
                         elem: '.admin-nav-card', //设置选项卡容器
                         contextMenu: true,
                         onSwitch: function (data) {
-                            // console.log(data.id); //当前Tab的Id
+                            //console.log(data.id); //当前Tab的Id
                             // console.log(data.index); //得到当前Tab的所在下标
                             // console.log(data.elem); //得到当前的Tab大容器
                             // console.log(tab.getCurrentTabId())
@@ -245,6 +343,8 @@ var vm_function = new Vue({
                     cached: true,
                     data: vm_function.funcs.children
                 });
+
+
                 //渲染navbar
                 navbar.render();
 
