@@ -123,8 +123,10 @@ layui.define(['element', 'common'], function (exports) {
                 }
             }
             globalTabIdIndex++;
-            var content = '<iframe src="' + data.href + '" data-id="' + globalTabIdIndex + '"></iframe>';
+            // var content = '<iframe src="' + data.href + '" data-id="' + globalTabIdIndex + '"></iframe>';
+            var content = '<iframe src="http://localhost:8080/cd-rems/index.html" data-id="' + globalTabIdIndex + '"></iframe>';
             var title = '';
+            debugger
             if (data.icon !== undefined) {
                 if (data.icon.indexOf('fa-') !== -1) {
                     title += '<i class="fa ' + data.icon + '" aria-hidden="true"></i>';

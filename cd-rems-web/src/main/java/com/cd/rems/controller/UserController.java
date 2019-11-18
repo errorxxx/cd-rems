@@ -3,6 +3,7 @@ package com.cd.rems.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.cd.rems.api.UserApi;
 import com.cd.rems.entity.TUser;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * @Autor 谢修继
  * @Date 2019/11/7 22:50
  */
-@RestController
+@Controller
 @RequestMapping("/User")
 public class UserController {
 
@@ -24,4 +25,11 @@ public class UserController {
     public List<TUser> selectAll(){
         return userApi.selectAll();
     }
+
+    @RequestMapping("/test")
+    public String test(){
+        return "test";
+    }
+
+
 }

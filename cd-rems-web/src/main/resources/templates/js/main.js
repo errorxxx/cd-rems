@@ -75,7 +75,7 @@ $(function () {
  *显示用户信息及系统时间
  */
 var vm_user = new Vue({
-    el: '#userInfo',
+    el: '#LAY_app',
     data: {
         sysdate: '',
         user: {},
@@ -83,8 +83,8 @@ var vm_user = new Vue({
     mounted: function () {
         Vue.nextTick(function(){
         	vm_user.getSysDate();
-            vm_function.getFunctionsByUser();
             vm_user.getUserInfo();
+            getAllBackModuleMenu();
             // vm_user.getUserDepartInfo();
             // vm_user.checkLogin();
         })
@@ -291,181 +291,3 @@ function initLayUi(){
         element.render('nav',layFilter);
     });
 }
-/**
- *显示左侧菜单
- */
-var vm_function = new Vue({
-    el: "#admin-side",
-    data: {
-        funcs: {}
-    },
-    methods: {
-        /**获取该用户授权菜单*/
-        getFunctionsByUser: function () {
-            this.$resource(contextPath + "/nav/listByUserId").query().then(function(response){
-                this.funcs = response.data[0];
-
-                //数据加载完后渲染左侧菜单
-                Vue.nextTick(function(){
-                	//vm_function.renderNavTree();
-                    getAllBackModuleMenu();
-                })
-            }).catch(function(error){
-            })
-        },
-        /**渲染左侧菜单*/
-        renderNavTree: function () {
-            layui.config({
-                base: 'js/',
-                version: new Date().getTime()
-            }).use(['element', 'layer', 'navbar', 'tab'], function () {
-                var element = layui.element,
-                    layer = layui.layer,
-                    navbar = layui.navbar(),
-                    tab = layui.tab({
-                        elem: '.admin-nav-card', //设置选项卡容器
-                        contextMenu: true,
-                        onSwitch: function (data) {
-                            //console.log(data.id); //当前Tab的Id
-                            // console.log(data.index); //得到当前Tab的所在下标
-                            // console.log(data.elem); //得到当前的Tab大容器
-                            // console.log(tab.getCurrentTabId())
-                        },
-                        closeBefore: function (obj) { //tab 关闭之前触发的事件
-                            // console.log(obj);
-                            return true;
-                        }
-                    });
-                //设置navbar
-                navbar.set({
-                    spreadOne: true,
-                    elem: '#admin-navbar-side',
-                    cached: true,
-                    data: vm_function.funcs.children
-                });
-
-
-                //渲染navbar
-                navbar.render();
-
-                //监听点击事件
-                navbar.on('click(side)', function (data) {
-                    tab.tabAdd(data.field);
-                });
-            });
-        }
-    }
-
-});
-
-
-/**
- *消息服务
- */
-var vm_message = new Vue({
-    el: "#messageTemplate",
-    data: {
-        mqUrl: '',
-        message: {}
-    },
-    mounted: function () {
-//        Vue.nextTick(() => {
-//            this.getMQAdress();
-//        })
-    },
-    methods: {
-        /**获取MQ地址*/
-        getMQAdress: function () {
-            this.$resource('../api/message/getMQAdress').query().then(function(response){
-                this.mqUrl = response.data;
-            }).catch(function (error) {
-                console.log(error);
-                layer.msg(error.data.errMsg, {icon: 2, anim: 6, time: 1000});
-            }).finally(function(){
-                /** 判断当前浏览器是否支持WebSocket*/
-                if ('WebSocket' in window) {
-                    if (getCookie("hnms-userid") != null) {
-                        websocket = new WebSocket("ws://" + vm_message.mqUrl + "/websocket/" + getCookie("hnms-userid"));
-                    }
-                } else {
-                    alert('当前浏览器不支持websocket，将无法接收消息推送，请更换浏览器！')
-                }
-                /** 连接发生错误的回调方法*/
-                websocket.onerror = function () {
-                    console.log("WebSocket连接发生错误");
-                    // alert("WebSocket连接发生错误");
-                };
-
-                /** 连接成功建立的回调方法*/
-                websocket.onopen = function () {
-                    // alert("WebSocket连接成功");
-                    console.log("WebSocket连接成功");
-                }
-                /** 接收到消息的回调方法*/
-                websocket.onmessage = function (event) {
-                    // notie.alert({type: 1, text: '你有新的消息'});
-                    vm_user.message = JSON.parse(event.data);
-
-                    //多窗口模式，层叠置顶
-                    layer.open({
-                        type: 1
-                        , title: '消息'
-                        , area: ['390px', '330px']
-                        , shade: 0
-                        , offset: 'rb'
-                        , maxmin: true
-                        , content: vm_user.message.msgContent
-                        , btn: ['现在处理', '忽略'] //只是为了演示
-                        , yes: function () {
-                            $(that).click(); //此处只是为了演示，实际使用可以剔除
-                        }
-                        , btn2: function () {
-                            layer.closeAll();
-                        }
-                        , zIndex: layer.zIndex //重点1
-                        , success: function (layero) {
-                            layer.setTop(layero); //重点2
-                        }
-                    });
-
-                    // notie.confirm({
-                    //     text: vm_user.message.msgContent,
-                    //     cancelCallback: function () {
-                    //         notie.alert({type: 3, text: 'Aw, why not? :(', time: 2})
-                    //     },
-                    //     submitCallback: function () {
-                    //         notie.alert({type: 1, text: 'Good choice! :D', time: 2})
-                    //     }
-                    // })
-                }
-                /** 连接关闭的回调方法*/
-                websocket.onclose = function () {
-                    console.log("WebSocket连接关闭");
-                    // alert("WebSocket连接关闭");
-                }
-
-                /** 监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。*/
-                window.onbeforeunload = function () {
-                    closeWebSocket();
-                }
-            });
-        },
-    }
-});
-
-/** 将消息显示在网页上*/
-function setMessageInnerHTML(innerHTML) {
-    document.getElementById('message').innerHTML += innerHTML + '<br/>';
-}
-
-/** 关闭WebSocket连接*/
-function closeWebSocket() {
-    websocket.close();
-}
-
-/** 发送消息*/
-function send() {
-    var message = document.getElementById('text').value;
-    websocket.send(message);
-}
-

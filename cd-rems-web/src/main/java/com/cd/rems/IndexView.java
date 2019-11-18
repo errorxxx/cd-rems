@@ -23,7 +23,7 @@ import java.io.IOException;
 public class IndexView implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/index.jsp");
+        registry.addViewController("/").setViewName("forward:/main.html");
         registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
     }
 
