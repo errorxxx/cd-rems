@@ -11,4 +11,10 @@ import java.util.List;
  */
 public interface RoleService {
     List<TRole> selectAll();
+
+    void addRole(TRole tRole);
+
+    void updateRole(TRole tRole);
+
+    void deleteRole(TRole tRole);
 }

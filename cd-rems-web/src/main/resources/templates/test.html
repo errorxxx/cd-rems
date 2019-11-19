@@ -7,10 +7,15 @@
 </head>
 <body>
 <div id="app">
+    <div style="margin-right: 20px" align="right">
+        <el-button type="primary" @click="addRoleClick" icon="el-icon-plus" circle></el-button>
+    </div>
     <el-table
             ref="singleTable"
             :data="tableData"
             highlight-current-row
+            @current-change="selectionRowsChange"
+            @row-dblclick="rowDBClicked"
             style="width: 100%">
         <el-table-column
                 type="index"
@@ -24,7 +29,7 @@
         <el-table-column
                 property="roledescrib"
                 label="角色描述"
-                width="120">
+                width="240">
         </el-table-column>
         <el-table-column
                 property="addeddate"
@@ -32,11 +37,26 @@
         </el-table-column>
         <el-table-column
                 label="操作">
-            <el-button type="text">编辑</el-button>
+            <el-button type="text" @click="updateRoleClick">编辑</el-button>
             <el-button type="text">权限</el-button>
-            <el-button type="text">删除</el-button>
+            <el-button type="danger" @click="deleteRole">删除</el-button>
         </el-table-column>
     </el-table>
+
+    <el-dialog title="角色信息" :visible.sync="dialogFormVisible">
+        <el-form :model="form">
+            <el-form-item label="角色名称" :label-width="formLabelWidth">
+                <el-input v-model="form.rolename" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="角色描述" :label-width="formLabelWidth">
+                <el-input v-model="form.roledescrib" autocomplete="off"></el-input>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="addOrUpdateRole">确 定</el-button>
+        </div>
+    </el-dialog>
 </div>
 </body>
 <!-- import Vue before Element -->
@@ -49,7 +69,13 @@
     var Vue = new Vue({
         el: '#app',
         data: {
-            tableData: []
+            tableData: [],
+            dialogFormVisible: false,
+            formLabelWidth: '120px',
+            form: {},
+            isUpdate: 0,
+            selectRow: {},//选中行数
+            tempForm: {}
         },
         mounted: function () {
             Vue.nextTick(function () {
@@ -63,6 +89,60 @@
                 }).catch(function () {
                     Vue.showMsgError("角色查询错误");
                 });
+            },
+            addRoleClick() {
+                Vue.isUpdate = -1;
+                Vue.dialogFormVisible = true;
+            },
+            updateRoleClick() {
+                if (Vue.selectRow != null && Vue.selectRow.rolename != undefined) {
+                    Vue.isUpdate = 1;
+                    Vue.dialogFormVisible = true;
+                } else {
+                    Vue.showMsgError("请选择要修改的行!");
+                }
+            },
+            addOrUpdateRole() {
+                if (Vue.isUpdate == 1) {
+                    if (confirm("确定修改该角色?")) {
+                        Vue.$resource(contextPath + '/user/updateRole').save(Vue.selectRow)
+                            .then(function (response) {
+                                Vue.dialogFormVisible = false;
+                                Vue.getResource();
+                            }).catch(function (error) {
+                            vueObject.showMsgError(error.data.message);
+                        })
+                    }
+                } else {
+                    if (confirm("确定添加角色?")) {
+                        Vue.$resource(contextPath + '/user/addRole').save(Vue.selectRow)
+                            .then(function (response) {
+                                Vue.dialogFormVisible = false;
+                                Vue.getResource();
+                            }).catch(function (error) {
+                            vueObject.showMsgError(error.data.message);
+                        })
+                    }
+                }
+            },
+            deleteRole() {
+                if (confirm("确定删除该角色?")) {
+                    Vue.$resource(contextPath + '/user/deleteRole').save(Vue.selectRow)
+                        .then(function (response) {
+                            Vue.getResource();
+                        }).catch(function (error) {
+                        vueObject.showMsgError(error.data.message);
+                    })
+                }
+            },
+            selectionRowsChange: function (row) {
+                Vue.selectRow = row;
+            },
+            rowDBClicked: function (row) {
+                if (row != null) {
+                    Vue.selectRow = row;
+                    Vue.dialogFormVisible = true;
+                }
             }
         }
     })

@@ -5,6 +5,8 @@ import com.cd.rems.api.RoleApi;
 import com.cd.rems.api.UserApi;
 import com.cd.rems.entity.TRole;
 import com.cd.rems.entity.TUser;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,5 +42,18 @@ public class UserController {
         return roleApi.selectAll();
     }
 
+    @PostMapping("/addRole")
+    public void addRole(@RequestBody TRole role){
+        this.roleApi.addRole(role);
+    }
 
+    @PostMapping("/updateRole")
+    public void updateRole(@RequestBody TRole role){
+        this.roleApi.updateRole(role);
+    }
+
+    @PostMapping("/deleteRole")
+    public void deleteRole(@RequestBody TRole role){
+        this.roleApi.deleteRole(role);
+    }
 }

@@ -24,4 +24,19 @@ public class RoleApiImpl implements RoleApi {
     public List<TRole> selectAll() {
         return roleService.selectAll();
     }
+
+    @Override
+    public void addRole(TRole tRole) {
+        this.roleService.addRole(tRole);
+    }
+
+    @Override
+    public void updateRole(TRole tRole) {
+        this.roleService.updateRole(tRole);
+    }
+
+    @Override
+    public void deleteRole(TRole tRole) {
+        this.roleService.deleteRole(tRole);
+    }
 }

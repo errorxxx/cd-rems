@@ -11,5 +11,12 @@ import java.util.List;
  * @Date 2019/11/18 22:25
  */
 public interface RoleApi {
+
     List<TRole> selectAll();
+
+    void addRole(TRole role);
+
+    void updateRole(TRole role);
+
+    void deleteRole(TRole role);
 }

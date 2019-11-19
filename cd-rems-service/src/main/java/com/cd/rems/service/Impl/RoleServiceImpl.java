@@ -21,4 +21,19 @@ public class RoleServiceImpl implements RoleService {
     public List<TRole> selectAll() {
         return roleMapper.selectAll();
     }
+
+    @Override
+    public void addRole(TRole tRole) {
+        this.roleMapper.insert(tRole);
+    }
+
+    @Override
+    public void updateRole(TRole tRole) {
+        this.roleMapper.updateByPrimaryKey(tRole);
+    }
+
+    @Override
+    public void deleteRole(TRole tRole) {
+        this.roleMapper.deleteByPrimaryKey(tRole.getRoleid());
+    }
 }
