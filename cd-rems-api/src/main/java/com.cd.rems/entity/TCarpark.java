@@ -137,7 +137,7 @@ public class TCarpark implements Serializable {
      *
      * @mbg.generated
      */
-    private Byte carparkrank;
+    private Integer carparkrank;
 
     /**
      *
@@ -518,7 +518,7 @@ public class TCarpark implements Serializable {
      *
      * @mbg.generated
      */
-    public Byte getCarparkrank() {
+    public Integer getCarparkrank() {
         return carparkrank;
     }
 
@@ -530,7 +530,7 @@ public class TCarpark implements Serializable {
      *
      * @mbg.generated
      */
-    public void setCarparkrank(Byte carparkrank) {
+    public void setCarparkrank(Integer carparkrank) {
         this.carparkrank = carparkrank;
     }
 

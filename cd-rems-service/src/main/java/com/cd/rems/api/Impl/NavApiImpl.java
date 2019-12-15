@@ -8,6 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+/**
+ * @author liufuqiang
+ * @description NavApi实现类
+ * @date 2019/11/29 16:10
+ */
 @Service
 @Component
 public class NavApiImpl implements NavApi {

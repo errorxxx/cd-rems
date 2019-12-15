@@ -4,9 +4,17 @@
     <meta charset="UTF-8">
     <!-- import CSS -->
     <link rel="stylesheet" href="./css/index.css">
+    <style>
+        /* 隐藏未编译的变量 */
+
+        [v-cloak] {
+            display: none;
+        }
+
+    </style>
 </head>
 <body>
-<div id="app">
+<div id="app" v-cloak>
     <div style="margin-right: 20px" align="right">
         <el-button type="primary" @click="addRoleClick" icon="el-icon-plus" circle></el-button>
     </div>
@@ -58,7 +66,6 @@
         </div>
     </el-dialog>
 </div>
-</body>
 <!-- import Vue before Element -->
 <script src="./vue/vue.js"></script>
 <script src="./vue/vue-resource.js"></script>
@@ -147,4 +154,5 @@
         }
     })
 </script>
+</body>
 </html>

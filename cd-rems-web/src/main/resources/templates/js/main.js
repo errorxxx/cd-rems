@@ -177,9 +177,9 @@ function showAllPCModuleMenu(result){
     }
     var str = "";
     str += '<li data-name="home" class="layui-nav-item layui-nav-itemed layui-this">'
-        + '<a href="javascript:;" lay-tips="主页" lay-direction="2">'
+        + '<a href="javascript:;" lay-tips="数据总览" lay-direction="2">'
         + '<i class="layui-icon layui-icon-home"></i>'
-        + '<cite>主页</cite>'
+        + '<cite>数据总览</cite>'
         + '</a>'
         + '</li>';
     for(var i = 0;i < modules.length; i++){

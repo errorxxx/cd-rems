@@ -25,6 +25,7 @@
     <result column="carparkTotalLoan" jdbcType="INTEGER" property="carparktotalloan" />
     <result column="buildingId" jdbcType="INTEGER" property="buildingid" />
   </resultMap>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated
@@ -101,5 +102,22 @@
     management, `operator`, propert, equipment, carparkNature, carparkType, propertyYears, 
     loanYears, carparkRank, carparkTotal, carparkTotalLoan, buildingId
     from t_carpark
+  </select>
+  <select id="selectCountAll" resultType="java.lang.Integer">
+      select count(carparkId) from t_carpark
+  </select>
+  <select id="selectCountAllByCondition" resultType="java.lang.Integer">
+      select count(carparkId) from t_carpark where
+      carparkName like concat('%',#{carparkVo.carparkname},'%') and
+      carparkAddress like concat('%',#{carparkVo.carparkaddress},'%') and
+      carparkRank like
+      case
+      when #{carparkVo.carparkrank} = -1 then
+      concat('%','','%')
+      else
+      concat('%',#{carparkVo.carparkrank},'%')
+      end
+      and entryTime
+      between #{carparkVo.minDate} and #{carparkVo.maxDate}
   </select>
 </mapper>

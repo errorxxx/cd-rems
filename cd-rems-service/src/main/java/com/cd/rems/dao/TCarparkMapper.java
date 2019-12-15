@@ -1,6 +1,8 @@
 package com.cd.rems.dao;
 
 import com.cd.rems.entity.TCarpark;
+import com.cd.rems.model.CarparkVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -45,4 +47,18 @@ public interface TCarparkMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(TCarpark record);
+
+    /**
+     * 获取所有数量
+     * @return
+     */
+    int selectCountAll();
+
+    /**
+     * 根据查询条件获取总数量
+     * @param carparkVo
+     * @return
+     */
+    int selectCountAllByCondition(@Param("carparkVo")CarparkVo carparkVo);
+
 }
