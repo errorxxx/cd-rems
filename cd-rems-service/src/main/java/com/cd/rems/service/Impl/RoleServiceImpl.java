@@ -6,6 +6,7 @@ import com.cd.rems.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,6 +25,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void addRole(TRole tRole) {
+        tRole.setAddeddate(new Date());
         this.roleMapper.insert(tRole);
     }
 
