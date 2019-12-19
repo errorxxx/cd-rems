@@ -17,14 +17,14 @@
 <div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:10px" >
     <div style="margin-left:20px;">
         <div class="nav-title">
-            <a href="../html/carparkindex.html" style="text-decoration: none"  class="non-current-nav">贷后资产项目管理</a> &nbsp;<i class="non-current-nav">/ </i> <a href="javascript:;" style="text-decoration: none" class="current-nav-strong">新增停车场基本信息</a>
+            <a href="../rems/BuildingInfo.html" style="text-decoration: none"  class="non-current-nav">调研楼盘信息管理</a> &nbsp;<i class="non-current-nav">/ </i> <a href="javascript:;" style="text-decoration: none" class="current-nav-strong">新增楼盘信息</a>
         </div>
         <div class="demo-input-suffix" >
             <h4>基本信息</h4>
             <span>楼盘名称：</span>
             <el-input
                       placeholder=""
-                      v-model="buildingName"
+                      v-model="buildingInfo.buildingname"
                       style="width:215px">
             </el-input>
             <span style="margin-left: 10px;">楼盘地址：</span>
@@ -65,19 +65,19 @@
             <span>开发商名称：</span>
             <el-input 
                       placeholder=""
-                      v-model="buildingName"
+                      v-model="buildingInfo.developer"
                       style="width:215px">
             </el-input>
             <span style="margin-left: 25px;">物业名称：</span>
             <el-input 
                       placeholder=""
-                      v-model="developer"
+                      v-model="buildingInfo.propertymanager"
                       style="width:302px">
             </el-input>
             <span style="margin-left: 30px;">物业费：</span>
             <el-input 
                       placeholder=""
-                      v-model="management"
+                      v-model="buildingInfo.propertymanagerfee"
                       style="width:313px">
             </el-input>
         </div>
@@ -85,17 +85,19 @@
             <span>楼盘总建面：</span>
             <el-input 
                       placeholder=""
+                      v-model="buildingInfo.totalarea"
                       style="width:215px">
             </el-input>
             <span>㎡</span>
             <span style="margin-left: 10px;">楼盘容积率：</span>
             <el-input 
                       placeholder=""
+                      v-model="buildingInfo.arearate"
                       style="width:215px">
             </el-input>
             <span style="margin-left: 30px;">楼盘现状：</span>
             <el-select
-                    v-model="carParkRankValue"
+                    v-model="buildingInfo.nowtypeid"
                     placeholder="请选择楼盘现状类型"
                     style="width:313px">
                 <el-option
@@ -110,17 +112,20 @@
             <span>楼盘总套数：</span>
             <el-input 
                       placeholder=""
+                      v-model="buildingInfo.buildingnumber"
                       style="width:215px">
             </el-input>
             <span style="margin-left: 10px;">楼盘销售均价：</span>
             <el-input 
                       placeholder=""
+                      v-model="buildingInfo.averageprice"
                       style="width:215px">
             </el-input>
             <span>元</span>
             <span>开盘时间：</span>
             <el-input 
                       placeholder=""
+                      v-model="buildingInfo.saledate"
                       style="width:215px">
             </el-input>
         </div>
@@ -128,16 +133,19 @@
             <span>开盘期数：</span>
             <el-input 
                       placeholder=""
+                      v-model="buildingInfo.saleissue"
                       style="width:215px">
             </el-input>
             <span style="margin-left: 10px;">首次交房时间：</span>
             <el-input 
                       placeholder=""
+                      v-model="buildingInfo.delivereddate"
                       style="width:215px">
             </el-input>
             <span>录入人：</span>
             <el-input 
                       placeholder=""
+                      v-model="buildingInfo.intputer"
                       style="width:215px">
             </el-input>
         </div>
@@ -145,20 +153,97 @@
             <span>楼盘联系人：</span>
             <el-input 
                       placeholder=""
+                      v-model="buildingInfo.contacts"
                       style="width:215px">
             </el-input>
             <span style="margin-left: 10px;">联系人电话：</span>
             <el-input 
                       placeholder=""
+                      v-model="buildingInfo.contactstel"
                       style="width:215px">
             </el-input>
             <span>录入时间：</span>
             <el-input 
                       placeholder=""
+                      v-model="buildingInfo.inputdate"
                       style="width:215px">
             </el-input>
         </div>
     </div>
+
+    <!--<div style="margin-left:20px;">-->
+        <!--<div class="demo-input-suffix" style="margin-top:15px;">-->
+            <!--<h4>停车场信息</h4>-->
+            <!--<span>车位总数量：</span>-->
+            <!--<el-input-->
+                    <!--placeholder=""-->
+                    <!--v-model="buildingName"-->
+                    <!--style="width:215px">-->
+            <!--</el-input>-->
+            <!--<span style="margin-left: 25px;">车位分层数量：</span>-->
+            <!--<el-input-->
+                    <!--placeholder=""-->
+                    <!--v-model="developer"-->
+                    <!--style="width:302px">-->
+            <!--</el-input>-->
+            <!--<span style="margin-left: 30px;">车位开盘均价：</span>-->
+            <!--<el-input-->
+                    <!--placeholder=""-->
+                    <!--v-model="management"-->
+                    <!--style="width:313px">-->
+            <!--</el-input>-->
+            <!--<span>元</span>-->
+        <!--</div>-->
+        <!--<div class="demo-input-suffix" style="margin-top:15px;">-->
+            <!--<span>符合贷后管理要求车位数量:</span>-->
+            <!--<el-input-->
+                    <!--placeholder=""-->
+                    <!--style="width:215px">-->
+            <!--</el-input>-->
+            <!--<span>㎡</span>-->
+            <!--<span style="margin-left: 10px;">车位配比：</span>-->
+            <!--<el-input-->
+                    <!--placeholder=""-->
+                    <!--style="width:215px">-->
+            <!--</el-input>-->
+        <!--</div>-->
+        <!--<div class="demo-input-suffix" style="margin-top:15px;">-->
+            <!--<span>地上平面车位：</span>-->
+            <!--<el-input-->
+                    <!--placeholder=""-->
+                    <!--style="width:215px">-->
+            <!--</el-input>-->
+            <!--<span style="margin-left: 10px;">地下平面车位：</span>-->
+            <!--<el-input-->
+                    <!--placeholder=""-->
+                    <!--style="width:215px">-->
+            <!--</el-input>-->
+            <!--<span>平面车位管理费：</span>-->
+            <!--<el-input-->
+                    <!--placeholder=""-->
+                    <!--style="width:215px">-->
+            <!--</el-input>-->
+            <!--<span>元</span>-->
+        <!--</div>-->
+        <!--<div class="demo-input-suffix" style="margin-top:15px;">-->
+            <!--<span>地上机械车位：</span>-->
+            <!--<el-input-->
+                    <!--placeholder=""-->
+                    <!--style="width:215px">-->
+            <!--</el-input>-->
+            <!--<span style="margin-left: 10px;">地下机械车位：</span>-->
+            <!--<el-input-->
+                    <!--placeholder=""-->
+                    <!--style="width:215px">-->
+            <!--</el-input>-->
+            <!--<span>平面机械管理费：</span>-->
+            <!--<el-input-->
+                    <!--placeholder=""-->
+                    <!--style="width:215px">-->
+            <!--</el-input>-->
+            <!--<span>元</span>-->
+        <!--</div>-->
+    <!--</div>-->
 </div>
 
 <script src="../js/jquery.min.js"></script>
@@ -170,101 +255,6 @@
 <!-- import JavaScript -->
 <script src="../vue/index.js"></script>
 <script src="../js/util.js"></script>
-<script>
-    var Vue = new Vue({
-        el: '#app',
-        data() {
-            return{
-                totalCount:0,
-                currentPage:1,
-                pageSize:5,
-                tableData: [],
-                //默认值设置，可为空
-                caddress:{
-                    sheng: '',
-                    shi: '',
-                    qu: '',
-                },
-                carParkRank:[
-                    {label:'A',value:'1'},
-                    {label:'B',value:'2'},
-                    {label:'C',value:'3'},
-                    {label:'D',value:'4'}
-                ],
-                buildingName:'',//停车场名称
-                areaJson: '/json/address.json',
-                addressArray: [],//所有数据
-                cityArray: [],
-                areaArray: [],
-                carParkRankValue:'',//评级
-            }
-        },
-        mounted: function () {
-            Vue.nextTick(function () {
-                Vue.getAddressData();
-            })
-        },
-        methods: {
-            add(){//添加
-                window.location.href = contextPath+"/html/test.html";
-            },
-            getAddressData() {
-                var that = Vue;
-                this.$http.get(contextPath+that.areaJson).then(function (response) {
-                    if (response.status === 200) {
-                        //获取地址
-                        that.addressArray = response.data.data;
-                        //默认值赋值获取城市数组
-                        if(that.caddress.sheng){
-                            for (var ad of that.addressArray) {
-                                if (ad.areaname === that.caddress.sheng) {
-                                    that.cityArray = ad.subarea;
-                                    //---
-                                    //默认赋值获取区域数组
-                                    if(that.caddress.shi){
-                                        for (var area of that.cityArray) {
-                                            if (area.areaname === that.caddress.shi) {
-                                                that.areaArray = area.subarea;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                })
-            },
-            //选择省份
-            getCityData(val) {
-                //清空市，和区
-                this.caddress.shi='';
-                this.caddress.qu='';
-                this.$emit('change', this.caddress);//发送改变
-                for (var ad of this.addressArray) {
-                    if (ad.areaname === val) {
-                        this.cityArray = ad.subarea;
-                        return
-                    }
-                }
-            },
-            getAreaData(val) {
-                //清空区
-                this.caddress.qu='';
-                this.$emit('change', this.caddress);//发送改变
-                for (var area of this.cityArray) {
-                    if (area.areaname === val) {
-                        this.areaArray = area.subarea;
-                        return
-                    }
-                }
-            },
-            //地区数据变动后
-            onAreaChanged(val) {
-                this.$emit('change', this.caddress);//发送改变
-            }
-        }
-    })
-</script>
+<script src="../js/rems/AddBuildingInfo.js"></script>
 </body>
 </html>

@@ -41,7 +41,7 @@
 
         <!-- jdbc连接 -->
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3306/dhglsys" userId="root" password="123456"/>
+                        connectionURL="jdbc:mysql://192.168.213.149:3306/dhglsys" userId="root" password="123456"/>
         <!-- 类型转换 -->
         <javaTypeResolver>
             <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
@@ -63,198 +63,198 @@
         </javaClientGenerator>
         <!-- table可以有多个,每个数据库中的表都可以写一个table，tableName表示要匹配的数据库表,也可以在tableName属性中通过使用%通配符来匹配所有数据库表,只有匹配的表才会自动生成文件 -->
 
-        <table tableName="t_buildingCarpark">
-            <!-- 数据库表主键 -->
-            <generatedKey column="buildingCarparkId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_buildingInfo">
+        <!--<table tableName="t_buildingCarpark">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="buildingCarparkId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <table tableName="t_buildinginfo">
             <!-- 数据库表主键 -->
             <generatedKey column="buildingId" sqlStatement="Mysql"/>
         </table>
-        <table tableName="t_buildingQualification">
-            <!-- 数据库表主键 -->
-            <generatedKey column="buildingQualificationId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_buildingSale">
-            <!-- 数据库表主键 -->
-            <generatedKey column="buildingSaleId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_buildingSaleInfo">
-            <!-- 数据库表主键 -->
-            <generatedKey column="buildingSaleInfoId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_buildingSet">
-            <!-- 数据库表主键 -->
-            <generatedKey column="buildingSetId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_carpark">
-            <!-- 数据库表主键 -->
-            <generatedKey column="carparkId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_carpark_file">
-            <!-- 数据库表主键 -->
-            <generatedKey column="carparkfileId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_carparkDevice">
-            <!-- 数据库表主键 -->
-            <generatedKey column="carparkDeviceId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_carparkNature_file">
-            <!-- 数据库表主键 -->
-            <generatedKey column="carparkNatureId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_carparkPro">
-            <!-- 数据库表主键 -->
-            <generatedKey column="carparkProId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_carparkSurveyInfo">
-            <!-- 数据库表主键 -->
-            <generatedKey column="carparkSurveyInfoId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_carparkType">
-            <!-- 数据库表主键 -->
-            <generatedKey column="carparkTypeId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_carparkType_file">
-            <!-- 数据库表主键 -->
-            <generatedKey column="carparkTypeId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_carplotType">
-            <!-- 数据库表主键 -->
-            <generatedKey column="carplotTypeId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_changeStatus_file">
-            <!-- 数据库表主键 -->
-            <generatedKey column="changeStatusId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_charge">
-            <!-- 数据库表主键 -->
-            <generatedKey column="chargeId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_chargePattern">
-            <!-- 数据库表主键 -->
-            <generatedKey column="chargePatternId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_chargeSystemOwnType">
-            <!-- 数据库表主键 -->
-            <generatedKey column="chargeSystemOwnTypeId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_chargeType">
-            <!-- 数据库表主键 -->
-            <generatedKey column="chargeTypeId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_eleMode">
-            <!-- 数据库表主键 -->
-            <generatedKey column="eleModeId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_enclosure">
-            <!-- 数据库表主键 -->
-            <generatedKey column="enclosureId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_internetAccess">
-            <!-- 数据库表主键 -->
-            <generatedKey column="internetAccessId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_log">
-            <!-- 数据库表主键 -->
-            <generatedKey column="logId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_mortgageStatus_file">
-            <!-- 数据库表主键 -->
-            <generatedKey column="mortgageStatusId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_nav">
-            <!-- 数据库表主键 -->
-            <generatedKey column="navId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_network">
-            <!-- 数据库表主键 -->
-            <generatedKey column="networkId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_nowType">
-            <!-- 数据库表主键 -->
-            <generatedKey column="nowTypeId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_parklot">
-            <!-- 数据库表主键 -->
-            <generatedKey column="parklotId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_parklot_file">
-            <!-- 数据库表主键 -->
-            <generatedKey column="carparkfileId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_parklot_income">
-            <!-- 数据库表主键 -->
-            <generatedKey column="incomeId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_parklot_loan">
-            <!-- 数据库表主键 -->
-            <generatedKey column="lotloanId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_parklot_log">
-            <!-- 数据库表主键 -->
-            <generatedKey column="lotlogId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_parklot_monthrent">
-            <!-- 数据库表主键 -->
-            <generatedKey column="rentId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_parklot_mortgage">
-            <!-- 数据库表主键 -->
-            <generatedKey column="mortgageId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_parklot_sale">
-            <!-- 数据库表主键 -->
-            <generatedKey column="lotsaleId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_parklotStatus_file">
-            <!-- 数据库表主键 -->
-            <generatedKey column="parklotStatusId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_parklotType_file">
-            <!-- 数据库表主键 -->
-            <generatedKey column="parklotTypeId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_payMode">
-            <!-- 数据库表主键 -->
-            <generatedKey column="payModeId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_permission">
-            <!-- 数据库表主键 -->
-            <generatedKey column="permissionId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_rentType_file">
-            <!-- 数据库表主键 -->
-            <generatedKey column="rentTypeId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_role">
-            <!-- 数据库表主键 -->
-            <generatedKey column="roleId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_role_permission">
-            <!-- 数据库表主键 -->
-            <generatedKey column="rolePermId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_shops">
-            <!-- 数据库表主键 -->
-            <generatedKey column="shopsId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_subCarpark">
-            <!-- 数据库表主键 -->
-            <generatedKey column="subCarparkId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_user">
-            <!-- 数据库表主键 -->
-            <generatedKey column="userId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_user_role">
-            <!-- 数据库表主键 -->
-            <generatedKey column="userRoleId" sqlStatement="Mysql"/>
-        </table>
-        <table tableName="t_WLANType">
-            <!-- 数据库表主键 -->
-            <generatedKey column="WLANTypeId" sqlStatement="Mysql"/>
-        </table>
+        <!--<table tableName="t_buildingQualification">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="buildingQualificationId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_buildingSale">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="buildingSaleId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_buildingSaleInfo">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="buildingSaleInfoId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_buildingSet">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="buildingSetId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_carpark">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="carparkId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_carpark_file">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="carparkfileId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_carparkDevice">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="carparkDeviceId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_carparkNature_file">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="carparkNatureId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_carparkPro">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="carparkProId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_carparkSurveyInfo">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="carparkSurveyInfoId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_carparkType">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="carparkTypeId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_carparkType_file">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="carparkTypeId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_carplotType">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="carplotTypeId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_changeStatus_file">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="changeStatusId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_charge">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="chargeId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_chargePattern">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="chargePatternId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_chargeSystemOwnType">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="chargeSystemOwnTypeId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_chargeType">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="chargeTypeId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_eleMode">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="eleModeId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_enclosure">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="enclosureId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_internetAccess">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="internetAccessId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_log">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="logId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_mortgageStatus_file">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="mortgageStatusId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_nav">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="navId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_network">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="networkId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_nowType">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="nowTypeId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_parklot">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="parklotId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_parklot_file">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="carparkfileId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_parklot_income">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="incomeId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_parklot_loan">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="lotloanId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_parklot_log">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="lotlogId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_parklot_monthrent">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="rentId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_parklot_mortgage">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="mortgageId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_parklot_sale">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="lotsaleId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_parklotStatus_file">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="parklotStatusId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_parklotType_file">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="parklotTypeId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_payMode">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="payModeId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_permission">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="permissionId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_rentType_file">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="rentTypeId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_role">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="roleId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_role_permission">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="rolePermId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_shops">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="shopsId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_subCarpark">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="subCarparkId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_user">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="userId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_user_role">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="userRoleId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
+        <!--<table tableName="t_WLANType">-->
+            <!--&lt;!&ndash; 数据库表主键 &ndash;&gt;-->
+            <!--<generatedKey column="WLANTypeId" sqlStatement="Mysql"/>-->
+        <!--</table>-->
 
     </context>
 </generatorConfiguration>

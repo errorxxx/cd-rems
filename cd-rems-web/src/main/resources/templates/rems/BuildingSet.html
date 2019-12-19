@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>楼盘楼栋基本信息表</title>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="../css/index.css">
+    <style>
+        /* 隐藏未编译的变量 */
+
+        [v-cloak] {
+            display: none;
+        }
+
+        /*分页样式*/
+        .el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li {
+            margin: 0 5px;
+            background-color: #e0e0fa;
+            color: #5a5e66;
+            min-width: 30px;
+            border-radius: 2px;
+        }
+
+        .activeDate {
+            color: #65a3ed;
+            background-color: #e3f2f2;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:10px">
+    <div id="left" style="width:300px;float:left;">
+        <el-input placeholder="请输入内容" v-model="input3" class="input-with-select">
+            <el-button slot="append" icon="el-icon-search"></el-button>
+        </el-input>
+        <div v-for="o in 4" :key="o" class="text item">
+            {{'列表内容 ' + o }}
+        </div>
+    </div>
+    <div id="right" style="width:1500px;float:left;">
+        <div style="float:right;margin-right:20px;margin-top:20px;">
+            <el-row>
+                <el-button type="success" @click="exportData">导出</el-button>
+                <el-button type="primary" plain icon="el-icon-plus" style="margin-left:25px;" @click="add">添加
+                </el-button>
+            </el-row>
+        </div>
+        <div style="margin-left:20px;">
+            <div class="demo-input-suffix">
+                <span>录入人：</span>
+                <span>张三</span>
+                <span>&nbsp&nbsp&nbsp</span>
+                <span>录入时间：</span>
+                <span>2019-12-19</span>
+            </div>
+
+            <el-table
+                    ref="singvarable"
+                    :data="tableData"
+                    highlight-current-row
+                    style="width:100%;margin-top:20px;">
+                <el-table-column
+                        type="index"
+                        min-width="9%">
+                </el-table-column>
+                <el-table-column
+                        property="carparkname"
+                        label="楼号"
+                        min-width="20%">
+                </el-table-column>
+                <el-table-column
+                        property="carparkaddress"
+                        label="层数"
+                        min-width="26%">
+                </el-table-column>
+                <el-table-column
+                        property="carparkrank"
+                        label="销售单价"
+                        min-width="15%">
+                </el-table-column>
+                <el-table-column
+                        label="操作"
+                        min-width="15%">
+                    <el-button type="text" size="medium" icon="el-icon-edit">修改</el-button>
+                    <el-button type="text" size="medium" icon="el-icon-devare">删除</el-button>
+                </el-table-column>
+            </el-table>
+            <!--分页-->
+            <div class="block" style="display:block;margin-top: 10px;">
+                <el-pagination align='center' background
+                               @size-change="handleSizeChange"
+                               @current-change="handleCurrentChange"
+                               :current-page="currentPage"
+                               :page-sizes="[1,5,10,20,50]"
+                               :page-size="pageSize"
+                               layout="total, sizes, prev, pager, next, jumper"
+                               :total="totalCount">
+                </el-pagination>
+            </div>
+            <br><br><br>
+        </div>
+    </div>
+</div>
+<script src="../js/jquery.min.js"></script>
+<!-- import Vue before Element -->
+<script src="../vue/vue.js"></script>
+<script src="../vue/vue-resource.js"></script>
+<!--import moment js-->
+<script src="../moment/moment.js"></script>
+<!-- import JavaScript -->
+<script src="../vue/index.js"></script>
+<script src="../js/util.js"></script>
+<script>
+    var _minDate = null;
+    var _maxDate = null;
+    var Vue = new Vue({
+        el: '#app',
+        data() {
+            return {
+                totalCount: 0,
+                currentPage: 1,
+                pageSize: 5,
+                tableData: [],
+                //默认值设置，可为空
+                caddress: {
+                    sheng: '',
+                    shi: '',
+                    qu: '',
+                },
+                carParkRank: [
+                    {label: 'A', value: '1'},
+                    {label: 'B', value: '2'},
+                    {label: 'C', value: '3'},
+                    {label: 'D', value: '4'}
+                ],
+                carparkName: '',//停车场名称
+                areaJson: '/json/address.json',
+                addressArray: [],//所有数据
+                cityArray: [],
+                areaArray: [],
+                carParkRankValue: '',//评级
+                dateRange: [],//默认选择日期范围
+                pickerOptions: {//日期选择参数
+                    onPick(time) {
+                        //如果只选择一个时间
+                        if (!time.maxDate) {
+                            // var timeRange = 6 * 24 * 60 * 60 * 1000; //6天
+                            // _minDate = time.minDate.getTime() - timeRange;
+                            // _maxDate = time.minDate.getTime() + timeRange;
+                            //选择了两个时间
+                        } else {
+                            _minDate = _maxDate = null;
+                        }
+                    }, disabledDate(time) {//不显示的时间
+                        if (_minDate && _maxDate) {
+                            return time.getTime() < _minDate || time.getTime() > _maxDate
+                        }
+                    }
+                }
+            }
+        },
+        mounted: function () {
+            Vue.nextTick(function () {
+                Vue.getAddressData();
+                Vue.getResource();
+            })
+        },
+        methods: {
+            getResource() {//分页查询所有数据
+                var minDate = '';
+                var maxDate = '';
+                if (Vue.dateRange != null && Vue.dateRange.length > 0) {
+                    minDate = Vue.dateRange[0];
+                    maxDate = Vue.dateRange[1];
+                }
+                Vue.$resource(contextPath + '/carpark/getAllCarparkByPage', {
+                    carparkname: Vue.carparkName,//停车场名称
+                    carparkrank: Vue.carParkRankValue,//等级
+                    carparkaddress: Vue.caddress.sheng + Vue.caddress.shi + Vue.caddress.qu,//停车场地址
+                    minDate: minDate,//开始时间
+                    maxDate: maxDate,//结束时间
+                    currentPage: Vue.currentPage,//当前页
+                    pageSize: Vue.pageSize//每页条数
+                }).query().then(function (response) {
+                    Vue.tableData = response.data.data.list;
+                    Vue.totalCount = response.data.data.total;
+                }).catch(function () {
+                    Vue.showMsgError("角色查询错误");
+                });
+            },
+            search() {//模糊查询
+                Vue.currentPage = 1;//当前页
+                Vue.getResource();
+            },
+            add() {//添加
+                window.location.href = contextPath + "/rems/AddBuildingInfo.html";
+            },
+            exportData() {//导出
+
+            },
+            getAddressData() {
+                var that = Vue;
+                Vue.$http.get(contextPath + Vue.areaJson).then(function (response) {
+                    if (response.status === 200) {
+                        //获取地址
+                        that.addressArray = response.data.data;
+                        //默认值赋值获取城市数组
+                        if (that.caddress.sheng) {
+                            for (var ad of that.addressArray) {
+                                if (ad.areaname === that.caddress.sheng) {
+                                    that.cityArray = ad.subarea;
+                                    //---
+                                    //默认赋值获取区域数组
+                                    if (that.caddress.shi) {
+                                        for (var area of that.cityArray) {
+                                            if (area.areaname === that.caddress.shi) {
+                                                that.areaArray = area.subarea;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                })
+            },
+            //选择省份
+            getCityData(val) {
+                //清空市，和区
+                Vue.caddress.shi = '';
+                Vue.caddress.qu = '';
+                Vue.$emit('change', Vue.caddress);//发送改变
+                for (var ad of Vue.addressArray) {
+                    if (ad.areaname === val) {
+                        Vue.cityArray = ad.subarea;
+                        return
+                    }
+                }
+            },
+            getAreaData(val) {
+                //清空区
+                Vue.caddress.qu = '';
+                Vue.$emit('change', Vue.caddress);//发送改变
+                for (var area of Vue.cityArray) {
+                    if (area.areaname === val) {
+                        Vue.areaArray = area.subarea;
+                        return
+                    }
+                }
+            },
+            //地区数据变动后
+            onAreaChanged(val) {
+                Vue.$emit('change', Vue.caddress);//发送改变
+            },
+            handleSizeChange: function (size) { //分页    初始页currentPage、初始每页数据数pagesize和数据testpage
+                Vue.pageSize = size;
+                Vue.getResource();
+            },
+            handleCurrentChange: function (currentPage) {
+                Vue.currentPage = currentPage;
+                Vue.getResource();
+            },
+            selectToday(arr) {//选择今日
+                $(".selectToday").addClass("activeDate");
+                $(".selectVueYear").removeClass("activeDate");
+                $(".selectVueMonth").removeClass("activeDate");
+                $(".selectVueWeek").removeClass("activeDate");
+                var obj = {
+                    starttime: '',
+                    endtime: ''
+                }
+                obj.starttime = moment(new Date().valueOf()).format('YYYY-MM-DD');
+                obj.endtime = obj.starttime;
+                Vue.dateRange = [obj.starttime, obj.endtime];
+            },
+            selectVueWeek() {//选择本周
+                $(".selectVueWeek").addClass("activeDate");
+                $(".selectVueYear").removeClass("activeDate");
+                $(".selectVueMonth").removeClass("activeDate");
+                $(".selectToday").removeClass("activeDate");
+                var obj = {
+                    starttime: '',
+                    endtime: ''
+                }
+                obj.starttime = moment(moment().week(moment().week()).startOf('week').add(1, 'days').valueOf()).format('YYYY-MM-DD')
+                obj.endtime = moment(moment().week(moment().week()).endOf('week').add(1, 'days').valueOf()).format('YYYY-MM-DD');
+                Vue.dateRange = [obj.starttime, obj.endtime];
+            },
+            selectVueMonth() {//选择本月
+                $(".selectVueMonth").addClass("activeDate");
+                $(".selectVueYear").removeClass("activeDate");
+                $(".selectVueWeek").removeClass("activeDate");
+                $(".selectToday").removeClass("activeDate");
+                var obj = {
+                    starttime: '',
+                    endtime: ''
+                }
+                obj.starttime = moment(moment().month(moment().month()).startOf('month').valueOf()).format('YYYY-MM-DD');
+                obj.endtime = moment(moment().month(moment().month()).endOf('month').valueOf()).format('YYYY-MM-DD');
+                Vue.dateRange = [obj.starttime, obj.endtime];
+            },
+            selectVueYear() {//选择本年
+                $(".selectVueYear").addClass("activeDate");
+                $(".selectVueMonth").removeClass("activeDate");
+                $(".selectVueWeek").removeClass("activeDate");
+                $(".selectToday").removeClass("activeDate");
+                var obj = {
+                    starttime: '',
+                    endtime: ''
+                }
+                obj.starttime = moment(moment().year(moment().year()).startOf('year').valueOf()).format('YYYY-MM-DD');
+                obj.endtime = moment(moment().year(moment().year()).endOf('year').valueOf()).format('YYYY-MM-DD');
+                Vue.dateRange = [obj.starttime, obj.endtime];
+            }
+        }
+    })
+</script>
+</body>
+</html>
