@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <!-- import CSS -->
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../../css/index.css">
     <link rel="stylesheet" href="../css/custom.css">
     <style>
         /* 隐藏未编译的变量 */
@@ -17,7 +17,7 @@
 <div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:10px" >
     <div style="margin-left:20px;">
         <div class="nav-title">
-            <a href="../rems/BuildingInfo.html" style="text-decoration: none"  class="non-current-nav">调研楼盘信息管理</a> &nbsp;<i class="non-current-nav">/ </i> <a href="javascript:;" style="text-decoration: none" class="current-nav-strong">新增楼盘信息</a>
+            <a href="BuildingInfo.html" style="text-decoration: none" class="non-current-nav">调研楼盘信息管理</a> &nbsp;<i class="non-current-nav">/ </i> <a href="javascript:;" style="text-decoration: none" class="current-nav-strong">新增楼盘信息</a>
         </div>
         <div class="demo-input-suffix" >
             <h4>基本信息</h4>
@@ -171,90 +171,90 @@
         </div>
     </div>
 
-    <!--<div style="margin-left:20px;">-->
-        <!--<div class="demo-input-suffix" style="margin-top:15px;">-->
-            <!--<h4>停车场信息</h4>-->
-            <!--<span>车位总数量：</span>-->
-            <!--<el-input-->
-                    <!--placeholder=""-->
-                    <!--v-model="buildingName"-->
-                    <!--style="width:215px">-->
-            <!--</el-input>-->
-            <!--<span style="margin-left: 25px;">车位分层数量：</span>-->
-            <!--<el-input-->
-                    <!--placeholder=""-->
-                    <!--v-model="developer"-->
-                    <!--style="width:302px">-->
-            <!--</el-input>-->
-            <!--<span style="margin-left: 30px;">车位开盘均价：</span>-->
-            <!--<el-input-->
-                    <!--placeholder=""-->
-                    <!--v-model="management"-->
-                    <!--style="width:313px">-->
-            <!--</el-input>-->
-            <!--<span>元</span>-->
-        <!--</div>-->
-        <!--<div class="demo-input-suffix" style="margin-top:15px;">-->
-            <!--<span>符合贷后管理要求车位数量:</span>-->
-            <!--<el-input-->
-                    <!--placeholder=""-->
-                    <!--style="width:215px">-->
-            <!--</el-input>-->
-            <!--<span>㎡</span>-->
-            <!--<span style="margin-left: 10px;">车位配比：</span>-->
-            <!--<el-input-->
-                    <!--placeholder=""-->
-                    <!--style="width:215px">-->
-            <!--</el-input>-->
-        <!--</div>-->
-        <!--<div class="demo-input-suffix" style="margin-top:15px;">-->
-            <!--<span>地上平面车位：</span>-->
-            <!--<el-input-->
-                    <!--placeholder=""-->
-                    <!--style="width:215px">-->
-            <!--</el-input>-->
-            <!--<span style="margin-left: 10px;">地下平面车位：</span>-->
-            <!--<el-input-->
-                    <!--placeholder=""-->
-                    <!--style="width:215px">-->
-            <!--</el-input>-->
-            <!--<span>平面车位管理费：</span>-->
-            <!--<el-input-->
-                    <!--placeholder=""-->
-                    <!--style="width:215px">-->
-            <!--</el-input>-->
-            <!--<span>元</span>-->
-        <!--</div>-->
-        <!--<div class="demo-input-suffix" style="margin-top:15px;">-->
-            <!--<span>地上机械车位：</span>-->
-            <!--<el-input-->
-                    <!--placeholder=""-->
-                    <!--style="width:215px">-->
-            <!--</el-input>-->
-            <!--<span style="margin-left: 10px;">地下机械车位：</span>-->
-            <!--<el-input-->
-                    <!--placeholder=""-->
-                    <!--style="width:215px">-->
-            <!--</el-input>-->
-            <!--<span>平面机械管理费：</span>-->
-            <!--<el-input-->
-                    <!--placeholder=""-->
-                    <!--style="width:215px">-->
-            <!--</el-input>-->
-            <!--<span>元</span>-->
-        <!--</div>-->
-    <!--</div>-->
+    <div style="margin-left:20px;">
+        <div class="demo-input-suffix" style="margin-top:15px;">
+            <h4>停车场信息</h4>
+            <span>车位总数量：</span>
+            <el-input
+                    placeholder=""
+                    v-model="buildingName"
+                    style="width:215px">
+            </el-input>
+            <span style="margin-left: 25px;">车位分层数量：</span>
+            <el-input
+                    placeholder=""
+                    v-model="developer"
+                    style="width:302px">
+            </el-input>
+            <span style="margin-left: 30px;">车位开盘均价：</span>
+            <el-input
+                    placeholder=""
+                    v-model="management"
+                    style="width:313px">
+            </el-input>
+            <span>元</span>
+        </div>
+        <div class="demo-input-suffix" style="margin-top:15px;">
+            <span>符合贷后管理要求车位数量:</span>
+            <el-input
+                    placeholder=""
+                    style="width:215px">
+            </el-input>
+            <span>㎡</span>
+            <span style="margin-left: 10px;">车位配比：</span>
+            <el-input
+                    placeholder=""
+                    style="width:215px">
+            </el-input>
+        </div>
+        <div class="demo-input-suffix" style="margin-top:15px;">
+            <span>地上平面车位：</span>
+            <el-input
+                    placeholder=""
+                    style="width:215px">
+            </el-input>
+            <span style="margin-left: 10px;">地下平面车位：</span>
+            <el-input
+                    placeholder=""
+                    style="width:215px">
+            </el-input>
+            <span>平面车位管理费：</span>
+            <el-input
+                    placeholder=""
+                    style="width:215px">
+            </el-input>
+            <span>元</span>
+        </div>
+        <div class="demo-input-suffix" style="margin-top:15px;">
+            <span>地上机械车位：</span>
+            <el-input
+                    placeholder=""
+                    style="width:215px">
+            </el-input>
+            <span style="margin-left: 10px;">地下机械车位：</span>
+            <el-input
+                    placeholder=""
+                    style="width:215px">
+            </el-input>
+            <span>平面机械管理费：</span>
+            <el-input
+                    placeholder=""
+                    style="width:215px">
+            </el-input>
+            <span>元</span>
+        </div>
+    </div>
 </div>
 
-<script src="../js/jquery.min.js"></script>
+<script src="../../js/jquery.min.js"></script>
 <!-- import Vue before Element -->
-<script src="../vue/vue.js"></script>
-<script src="../vue/vue-resource.js"></script>
+<script src="../../vue/vue.js"></script>
+<script src="../../vue/vue-resource.js"></script>
 <!--import moment js-->
-<script src="../moment/moment.js"></script>
+<script src="../../moment/moment.js"></script>
 <!-- import JavaScript -->
-<script src="../vue/index.js"></script>
-<script src="../js/util.js"></script>
-<script src="../js/rems/AddBuildingInfo.js"></script>
+<script src="../../vue/index.js"></script>
+<script src="../../js/util.js"></script>
+<script src="../../js/rems/AddBuildingInfo.js"></script>
 </body>
 </html>

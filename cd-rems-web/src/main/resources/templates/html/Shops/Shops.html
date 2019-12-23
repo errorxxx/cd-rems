@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>楼盘商铺信息</title>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="../../css/index.css">
+    <style>
+        /* 隐藏未编译的变量 */
+
+        [v-cloak] {
+            display: none;
+        }
+
+        /*分页样式*/
+        .el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li {
+            margin: 0 5px;
+            background-color: #e0e0fa;
+            color: #5a5e66;
+            min-width: 30px;
+            border-radius: 2px;
+        }
+
+        .activeDate {
+            color: #65a3ed;
+            background-color: #e3f2f2;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:10px">
+    <div id="left" style="width:300px;float:left;">
+        <el-input placeholder="请输入内容" v-model="input3" class="input-with-select">
+            <el-button slot="append" icon="el-icon-search"></el-button>
+        </el-input>
+        <div v-for="o in 4" :key="o" class="text item">
+            {{'列表内容 ' + o }}
+        </div>
+    </div>
+    <div id="right" style="width:1500px;float:left;">
+        <div style="float:right;margin-right:20px;margin-top:20px;">
+            <el-row>
+                <el-button type="success" @click="exportData">导出</el-button>
+                <el-button type="primary" plain icon="el-icon-plus" style="margin-left:25px;" @click="add">添加
+                </el-button>
+            </el-row>
+        </div>
+        <div style="margin-left:20px;">
+            <div class="demo-input-suffix">
+                <span>录入人：</span>
+                <span>张三</span>
+                <span>&nbsp&nbsp&nbsp</span>
+                <span>录入时间：</span>
+                <span>2019-12-19</span>
+            </div>
+
+            <el-table
+                    ref="singvarable"
+                    :data="tableData"
+                    highlight-current-row
+                    style="width:100%;margin-top:20px;">
+                <el-table-column
+                        type="index"
+                        min-width="10%">
+                </el-table-column>
+                <el-table-column
+                        property="delivereddate"
+                        label="商铺交房时间"
+                        min-width="20%">
+                </el-table-column>
+                <el-table-column
+                        property="shopstotalarea"
+                        label="商铺总面积"
+                        min-width="25%">
+                </el-table-column>
+                <el-table-column
+                        property="shopsnumber"
+                        label="商铺总数量"
+                        min-width="15%">
+                </el-table-column>
+                <el-table-column
+                        property="averageprice"
+                        label="销售均价"
+                        min-width="15%">
+                </el-table-column>
+                <el-table-column
+                        label="操作"
+                        min-width="15%">
+                    <el-button type="text" size="medium" icon="el-icon-edit">修改</el-button>
+                    <el-button type="text" size="medium" icon="el-icon-devare">删除</el-button>
+                </el-table-column>
+            </el-table>
+            <!--分页-->
+            <div class="block" style="display:block;margin-top: 10px;">
+                <el-pagination align='center' background
+                               @size-change="handleSizeChange"
+                               @current-change="handleCurrentChange"
+                               :current-page="currentPage"
+                               :page-sizes="[1,5,10,20,50]"
+                               :page-size="pageSize"
+                               layout="total, sizes, prev, pager, next, jumper"
+                               :total="totalCount">
+                </el-pagination>
+            </div>
+            <br><br><br>
+        </div>
+    </div>
+</div>
+<script src="../../js/jquery.min.js"></script>
+<!-- import Vue before Element -->
+<script src="../../vue/vue.js"></script>
+<script src="../../vue/vue-resource.js"></script>
+<!--import moment js-->
+<script src="../../moment/moment.js"></script>
+<!-- import JavaScript -->
+<script src="../../vue/index.js"></script>
+<script src="../../js/util.js"></script>
+<script>
+    var date = new Date();
+    var Vue = new Vue({
+        el: '#app',
+        data() {
+            return {
+                delivereddate: date,
+                shopstotalarea:0,
+                shopsnumber:0,
+                averageprice:0
+            }
+        },
+        mounted: function () {
+            Vue.nextTick(function () {
+
+            })
+        },
+        methods: {
+
+        }
+    })
+</script>
+</body>
+</html>
