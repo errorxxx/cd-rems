@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="../../css/index.css">
+    <link rel="stylesheet" href="../../css/custom.css">
+    <style>
+        /* 隐藏未编译的变量 */
+
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:10px" >
+    <div style="margin-left:20px;">
+        <div class="nav-title">
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item><a href="./carparkindex.html">停车场基本信息</a></el-breadcrumb-item>
+                <el-breadcrumb-item>编辑停车场基本信息</el-breadcrumb-item>
+            </el-breadcrumb>
+        </div>
+        <div class="demo-input-suffix">
+            <h4>基本信息</h4>
+            <span>停车场名称：</span>
+            <el-input
+                    placeholder=""
+                    v-model="carparkName"
+                    style="width:215px">
+            </el-input>
+            <span style="margin-left: 10px;">停车场地址：</span>
+            <el-select  v-model="caddress.sheng" style="flex: 1;width:155px;" placeholder="请选择省份" @change="getCityData">
+                <el-option
+                        v-for="item in addressArray"
+                        :key="item.areacode"
+                        :label="item.areaname"
+                        :value="item.areaname"
+                >
+                </el-option>
+            </el-select>
+            <el-select  v-model="caddress.shi" style="flex: 1;width:155px;" placeholder="请选择市区"
+                        @change="getAreaData">
+                <el-option
+                        v-for="item in cityArray"
+                        :key="item.areacode"
+                        :label="item.areaname"
+                        :value="item.areaname">
+                </el-option>
+            </el-select>
+            <el-select  v-model="caddress.qu" style="flex: 1;width:155px;" placeholder="请选择县"
+                        @change="onAreaChanged">
+                <el-option
+                        v-for="item in areaArray"
+                        :key="item.areacode"
+                        :label="item.areaname"
+                        :value="item.areaname">
+                </el-option>
+            </el-select>
+            <el-input
+                    placeholder="请输入详细地址"
+                    v-model="xxdz"
+                    style="width:270px">
+            </el-input>
+        </div>
+        <div class="demo-input-suffix" style="margin-top:15px;">
+            <span>开发商名称：</span>
+            <el-input
+                    placeholder=""
+                    v-model="buildingName"
+                    style="width:215px">
+            </el-input>
+            <span style="margin-left: 25px;">物业名称：</span>
+            <el-input
+                    placeholder=""
+                    v-model="developer"
+                    style="width:302px">
+            </el-input>
+            <span style="margin-left: 30px;">管理方名称：</span>
+            <el-input
+                    placeholder=""
+                    v-model="management"
+                    style="width:313px">
+            </el-input>
+        </div>
+        <div class="demo-input-suffix" style="margin-top:15px;">
+            <span>运营方名称：</span>
+            <el-input
+                    placeholder=""
+                    v-model="buildingName"
+                    style="width:215px">
+            </el-input>
+            <span style="margin-left: 10px;">停车场性质：</span>
+            <el-select
+                    v-model="carParkRankValue"
+                    placeholder="请选择停车场性质"
+                    style="width:302px">
+                <el-option
+                        v-for="item in carParkRank"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </el-option>
+            </el-select>
+            <span style="margin-left: 30px;">停车场类型：</span>
+            <el-select
+                    v-model="carParkRankValue"
+                    placeholder="请选择停车场类型"
+                    style="width:313px">
+                <el-option
+                        v-for="item in carParkRank"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </el-option>
+            </el-select>
+        </div>
+        <div class="demo-input-suffix" style="margin-top:15px;">
+            <span>停车场评级：</span>
+            <el-select
+                    v-model="carParkRankValue"
+                    placeholder="请选择停车场评级"
+                    style="width:215px">
+                <el-option
+                        v-for="item in carParkRank"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                </el-option>
+            </el-select>
+            <span style="margin-left: 10px;">车位总数量：</span>
+            <el-input
+                    type="number"
+                    placeholder=""
+                    v-model="carparkTotal"
+                    style="width:302px">
+            </el-input>
+            <span>贷后管理车位数：</span>
+            <el-input
+                    type="number"
+                    placeholder=""
+                    v-model="carparkTotalLoan"
+                    style="width:310px">
+            </el-input>
+        </div>
+        <div class="demo-input-suffix" style="margin-top:15px;">
+            <span style="margin-left:30px;">录入人：</span>
+            <el-input
+                    placeholder=""
+                    v-model="buildingName"
+                    style="width:215px">
+            </el-input>
+            <span style="margin-left:30px;">录入时间：</span>
+            <el-input
+                    placeholder=""
+                    v-model="buildingName"
+                    style="width:302px">
+            </el-input>
+        </div>
+        <div class="demo-input-suffix" style="margin-top:15px;">
+            <h4>资质文件</h4>
+            <label style="margin-left:90px;">国有土地使用证：</label>
+            <div style="margin-left:210px;">
+                <el-upload
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        list-type="picture-card"
+                        :on-preview="handlePictureCardPreview"
+                        :on-remove="handleRemove">
+                    <i class="el-icon-plus"></i>
+                </el-upload>
+                <el-dialog :visible.sync="dialogVisible">
+                    <img width="100%" :src="dialogImageUrl" alt="">
+                </el-dialog>
+            </div>
+
+            <label style="margin-left:60px;">建设用地规划许可证：</label>
+            <div style="margin-left:210px;">
+                <el-upload
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        list-type="picture-card"
+                        :on-preview="handlePictureCardPreview"
+                        :on-remove="handleRemove">
+                    <i class="el-icon-plus"></i>
+                </el-upload>
+                <el-dialog :visible.sync="dialogVisible">
+                    <img width="100%" :src="dialogImageUrl" alt="">
+                </el-dialog>
+            </div>
+            <label style="margin-left:60px;">建设工程规划许可证：</label>
+            <div style="margin-left:210px;">
+                <el-dialog :visible.sync="dialogVisible">
+                    <img width="100%" :src="dialogImageUrl" alt="">
+                </el-dialog>
+                <el-upload
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        list-type="picture-card"
+                        :on-preview="handlePictureCardPreview"
+                        :on-remove="handleRemove">
+                    <i class="el-icon-plus"></i>
+                </el-upload>
+            </div>
+        </div>
+        <div class="demo-input-suffix" style="margin-top:15px;">
+            <el-button type="success" style="margin-left:40%;" @click="addSubmit">提交</el-button>
+            <el-button type="primary" style="margin-left:25px;" @click="addCancel">取消</el-button>
+        </div><br><br>
+    </div>
+</div>
+
+<script src="../../js/jquery.min.js"></script>
+<!-- import Vue before Element -->
+<script src="../../vue/vue.js"></script>
+<script src="../../vue/vue-resource.js"></script>
+<!--import moment js-->
+<script src="../../moment/moment.js"></script>
+<!-- import JavaScript -->
+<script src="../../vue/index.js"></script>
+<script src="../../js/util.js"></script>
+<script src="../../js/carpark/carparkedit.js"></script>
+</body>
+</html>

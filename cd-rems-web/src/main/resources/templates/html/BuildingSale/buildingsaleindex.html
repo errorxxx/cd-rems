@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="../../css/index.css">
+    <link rel="stylesheet" href="../../css/custom.css">
+    <style>
+        /* 隐藏未编译的变量 */
+
+        [v-cloak] {
+            display: none;
+        }
+        .side-nav ul {
+            padding:0;
+            margin:0;
+            text-align: left;
+            list-style-type: none;
+        }
+        .side-nav ul li {
+            width: 160px;
+            list-style: none;
+            padding: 10px 50px 10px 0px;
+            margin: 0px;
+        }
+        .side-nav ul li a{
+            color:#000000;
+            margin-left: 10px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+    <div style="width:18%;background-color: #ffffff;padding-top:10px;float:left" >
+        <div class="side-nav" style="width:90%;height:600px;margin: 0 auto">
+            <el-input
+                    placeholder="请输入楼盘名称"
+                    suffix-icon="el-icon-search"
+                    v-model="input8">
+            </el-input>
+            <div style="height:500px;overflow-y: auto;margin-left:0px;margin-top:15px;">
+                <ul>
+                    <li class="nav-item" style="background-color: #E4E7ED"><a href="#" class="active" style="background-color: #E4E7ED;">中正景城</a></li>
+                    <li class="nav-item"><a href="#" class="">中正花园</a></li>
+                    <li class="nav-item"><a href="#" class="">中正锦城</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div style="width:81%;background-color: #ffffff;padding-top:10px;float:right" >
+        <div style="float:right;margin-right:20px;margin-top:20px;">
+            <el-row>
+                <el-button type="success" @click="exportData">导出</el-button>
+                <el-button type="primary" plain icon="el-icon-plus" style="margin-left:25px;" @click="add">添加</el-button>
+            </el-row>
+        </div>
+        <div style="margin-left:20px;">
+            <div class="demo-input-suffix" style="margin-top:100px;height:500px;">
+                <div style="width:800px;margin: 0 auto;">
+                    <span style="margin-left:30px;">录入人：</span>
+                    <el-input
+                            placeholder=""
+                            v-model="buildingName"
+                            style="width:150px">
+                    </el-input>
+                    <span style="margin-left:30px;">录入时间：</span>
+                    <el-input
+                            placeholder=""
+                            v-model="buildingName"
+                            style="width:200px">
+                    </el-input>
+                    <el-button type="text" size="medium" icon="el-icon-edit" @click="updateCarparkInfo" style="margin-left: 100px">修改</el-button>
+                    <el-button type="text" size="medium" icon="el-icon-delete" @click="delCarparkInfo">删除</el-button>
+                    <br><br>
+                    <el-table
+                            :data="tableData"
+                            border
+                            :cell-style="tableCellStyle"
+                            :header-cell-style="tableHeaderColor"
+                            style="width: 800px">
+                        <el-table-column
+                                prop="tag"
+                                label=""
+                                align='center'
+                                width="200">
+                        </el-table-column>
+                        <el-table-column
+                                prop="tag_value"
+                                label=""
+                                align='center'
+                                width="200">
+                        </el-table-column>
+                        <el-table-column
+                                prop="cur_tag"
+                                align='center'
+                                label=""
+                                width="200">
+                        </el-table-column>
+                        <el-table-column
+                                prop="cur_tag_value"
+                                align='center'
+                                label="">
+                        </el-table-column>
+                    </el-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../js/jquery.min.js"></script>
+<!-- import Vue before Element -->
+<script src="../../vue/vue.js"></script>
+<script src="../../vue/vue-resource.js"></script>
+<!--import moment js-->
+<script src="../../moment/moment.js"></script>
+<!-- import JavaScript -->
+<script src="../../vue/index.js"></script>
+<script src="../../js/util.js"></script>
+<script>
+    var Vue = new Vue({
+        el: '#app',
+        data() {
+            return{
+                value8:'',
+                tableData: [{
+                    tag: '已售房屋总套数',
+                    tag_value: '100',
+                    cur_tag: '当前售卖均价',
+                    cur_tag_value: '15000.00元/㎡'
+                }, {
+                    tag: '已售车位总数量',
+                    tag_value: '100',
+                    cur_tag: '当前均价',
+                    cur_tag_value: '200000.00'
+                }, {
+                    tag: '当前综合入住率',
+                    tag_value: '85%',
+                    cur_tag: '当前综合交房率',
+                    cur_tag_value: '100%'
+                }, {
+                    tag: '已售商铺总数量',
+                    tag_value: '100',
+                    cur_tag: '当前已售商铺总面积',
+                    cur_tag_value: '20000㎡'
+                }, {
+                    tag: '当前商铺售价',
+                    tag_value: '15000.00元/㎡',
+                    cur_tag: '当前商铺租金',
+                    cur_tag_value: '5000元/㎡'
+                }]
+            }
+        },
+        mounted () {
+            this.$refs.select.toggleMenu()
+        },
+        methods: {
+            add(){//添加
+                window.location.href = contextPath+"/html/test.html";
+            },
+            tableCellStyle({row, column, rowIndex, columnIndex }){//设置表格行列的样式
+                if(rowIndex == 4 && columnIndex == 2){
+                    return 'font-weight:bold;color:red';
+                }
+                if(columnIndex == 0 || columnIndex == 2){//第一列,三列
+                   return 'font-weight:bold';
+                }
+            },
+            //设置表头行的样式
+            tableHeaderColor({row,column,rowIndex,columnIndex}){
+                return 'display:none'
+
+            }
+        }
+    })
+
+</script>
+</body>
+</html>
