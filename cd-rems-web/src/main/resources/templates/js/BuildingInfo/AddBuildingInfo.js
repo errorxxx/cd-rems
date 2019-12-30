@@ -38,7 +38,7 @@ var Vue = new Vue({
                 inputdate:date
             },
             xxdz:'',//详细地址
-            areaJson: '/json/address.json',
+            areaJson: '../json/address.json',
             addressArray: [],//所有数据
             cityArray: [],
             areaArray: [],

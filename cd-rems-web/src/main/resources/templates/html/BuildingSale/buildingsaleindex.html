@@ -144,7 +144,8 @@
                     tag_value: '100',
                     cur_tag: '当前已售商铺总面积',
                     cur_tag_value: '20000㎡'
-                }, {
+                },
+                    {
                     tag: '当前商铺售价',
                     tag_value: '15000.00元/㎡',
                     cur_tag: '当前商铺租金',
@@ -159,7 +160,7 @@
             add(){//添加
                 window.location.href = contextPath+"/html/test.html";
             },
-            tableCellStyle({row, column, rowIndex, columnIndex }){//设置表格行列的样式
+            tableCellStyle(row, column, rowIndex, columnIndex ){//设置表格行列的样式
                 if(rowIndex == 4 && columnIndex == 2){
                     return 'font-weight:bold;color:red';
                 }
@@ -168,7 +169,7 @@
                 }
             },
             //设置表头行的样式
-            tableHeaderColor({row,column,rowIndex,columnIndex}){
+            tableHeaderColor(row,column,rowIndex,columnIndex){
                 return 'display:none'
 
             }

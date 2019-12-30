@@ -14,235 +14,240 @@
     </style>
 </head>
 <body>
-<div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:10px" >
-    <div style="margin-left:20px;">
-        <div class="nav-title">
-            <a href="BuildingInfo.html" style="text-decoration: none" class="non-current-nav">调研楼盘信息管理</a> &nbsp;<i class="non-current-nav">/ </i> <a href="javascript:;" style="text-decoration: none" class="current-nav-strong">新增楼盘信息</a>
-        </div>
-        <div class="demo-input-suffix" >
-            <h4>基本信息</h4>
-            <span>楼盘名称：</span>
-            <el-input
-                      placeholder=""
-                      v-model="buildingInfo.buildingname"
-                      style="width:215px">
-            </el-input>
-            <span style="margin-left: 10px;">楼盘地址：</span>
-            <el-select  v-model="caddress.sheng" style="flex: 1;width:155px;" placeholder="请选择省份" @change="getCityData">
-                <el-option
-                        v-for="item in addressArray"
-                        :key="item.areacode"
-                        :label="item.areaname"
-                        :value="item.areaname"
-                >
-                </el-option>
-            </el-select>
-            <el-select  v-model="caddress.shi" style="flex: 1;width:155px;" placeholder="请选择市区"
-                        @change="getAreaData">
-                <el-option
-                        v-for="item in cityArray"
-                        :key="item.areacode"
-                        :label="item.areaname"
-                        :value="item.areaname">
-                </el-option>
-            </el-select>
-            <el-select  v-model="caddress.qu" style="flex: 1;width:155px;" placeholder="请选择县"
-                        @change="onAreaChanged">
-                <el-option
-                        v-for="item in areaArray"
-                        :key="item.areacode"
-                        :label="item.areaname"
-                        :value="item.areaname">
-                </el-option>
-            </el-select>
-            <el-input 
-                      placeholder="请输入详细地址"
-                      v-model="xxdz"
-                      style="width:270px">
-            </el-input>
-        </div>
-        <div class="demo-input-suffix" style="margin-top:15px;">
-            <span>开发商名称：</span>
-            <el-input 
-                      placeholder=""
-                      v-model="buildingInfo.developer"
-                      style="width:215px">
-            </el-input>
-            <span style="margin-left: 25px;">物业名称：</span>
-            <el-input 
-                      placeholder=""
-                      v-model="buildingInfo.propertymanager"
-                      style="width:302px">
-            </el-input>
-            <span style="margin-left: 30px;">物业费：</span>
-            <el-input 
-                      placeholder=""
-                      v-model="buildingInfo.propertymanagerfee"
-                      style="width:313px">
-            </el-input>
-        </div>
-        <div class="demo-input-suffix" style="margin-top:15px;">
-            <span>楼盘总建面：</span>
-            <el-input 
-                      placeholder=""
-                      v-model="buildingInfo.totalarea"
-                      style="width:215px">
-            </el-input>
-            <span>㎡</span>
-            <span style="margin-left: 10px;">楼盘容积率：</span>
-            <el-input 
-                      placeholder=""
-                      v-model="buildingInfo.arearate"
-                      style="width:215px">
-            </el-input>
-            <span style="margin-left: 30px;">楼盘现状：</span>
-            <el-select
-                    v-model="buildingInfo.nowtypeid"
-                    placeholder="请选择楼盘现状类型"
-                    style="width:313px">
-                <el-option
-                        v-for="item in carParkRank"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
-        </div>
-        <div class="demo-input-suffix" style="margin-top:15px;">
-            <span>楼盘总套数：</span>
-            <el-input 
-                      placeholder=""
-                      v-model="buildingInfo.buildingnumber"
-                      style="width:215px">
-            </el-input>
-            <span style="margin-left: 10px;">楼盘销售均价：</span>
-            <el-input 
-                      placeholder=""
-                      v-model="buildingInfo.averageprice"
-                      style="width:215px">
-            </el-input>
-            <span>元</span>
-            <span>开盘时间：</span>
-            <el-input 
-                      placeholder=""
-                      v-model="buildingInfo.saledate"
-                      style="width:215px">
-            </el-input>
-        </div>
-        <div class="demo-input-suffix" style="margin-top:15px;">
-            <span>开盘期数：</span>
-            <el-input 
-                      placeholder=""
-                      v-model="buildingInfo.saleissue"
-                      style="width:215px">
-            </el-input>
-            <span style="margin-left: 10px;">首次交房时间：</span>
-            <el-input 
-                      placeholder=""
-                      v-model="buildingInfo.delivereddate"
-                      style="width:215px">
-            </el-input>
-            <span>录入人：</span>
-            <el-input 
-                      placeholder=""
-                      v-model="buildingInfo.intputer"
-                      style="width:215px">
-            </el-input>
-        </div>
-        <div class="demo-input-suffix" style="margin-top:15px;">
-            <span>楼盘联系人：</span>
-            <el-input 
-                      placeholder=""
-                      v-model="buildingInfo.contacts"
-                      style="width:215px">
-            </el-input>
-            <span style="margin-left: 10px;">联系人电话：</span>
-            <el-input 
-                      placeholder=""
-                      v-model="buildingInfo.contactstel"
-                      style="width:215px">
-            </el-input>
-            <span>录入时间：</span>
-            <el-input 
-                      placeholder=""
-                      v-model="buildingInfo.inputdate"
-                      style="width:215px">
-            </el-input>
-        </div>
+<div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:10px">
+    <div class="nav-title">
+        <a href="BuildingInfo.html" style="text-decoration: none" class="non-current-nav">调研楼盘信息管理</a> &nbsp;<i
+            class="non-current-nav">/ </i> <a href="javascript:;" style="text-decoration: none"
+                                              class="current-nav-strong">新增楼盘信息</a>
     </div>
-
-    <div style="margin-left:20px;">
-        <div class="demo-input-suffix" style="margin-top:15px;">
+    <div class="demo-input-suffix">
+        <h4>基本信息</h4>
+        <el-form :inline="true" label-width="120px">
+            <el-row :gutter="10">
+                <el-col :span="6">
+                    <el-form-item label="楼盘名称:">
+                        <el-input v-model="buildingInfo.buildingname" style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="2">
+                    <el-form-item label="楼盘地址:">
+                    </el-form-item>
+                </el-col>
+                <el-col :span="2">
+                    <el-form-item>
+                        <el-select v-model="caddress.sheng" style="flex: 1;width:155px;" placeholder="请选择省份"
+                                   @change="getCityData">
+                            <el-option
+                                    v-for="item in addressArray"
+                                    :key="item.areacode"
+                                    :label="item.areaname"
+                                    :value="item.areaname"
+                            >
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="2">
+                    <el-form-item>
+                        <el-select v-model="caddress.shi" style="flex: 1;width:155px;" placeholder="请选择市区"
+                                   @change="getAreaData">
+                            <el-option
+                                    v-for="item in cityArray"
+                                    :key="item.areacode"
+                                    :label="item.areaname"
+                                    :value="item.areaname">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="2">
+                    <el-form-item>
+                        <el-select v-model="caddress.qu" style="flex: 1;width:155px;" placeholder="请选择县"
+                                   @change="onAreaChanged">
+                            <el-option
+                                    v-for="item in areaArray"
+                                    :key="item.areacode"
+                                    :label="item.areaname"
+                                    :value="item.areaname">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="4">
+                    <el-form-item placeholder="请输入详细地址">
+                        <el-input
+                                placeholder="请输入详细地址"
+                                style="width:220px">
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="6">
+                    <el-form-item label="开发商名称:">
+                        <el-input v-model="buildingInfo.developer" style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="物业名称:">
+                        <el-input v-model="buildingInfo.propertymanager" style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="物业费:">
+                        <el-input v-model="buildingInfo.propertymanagerfee" style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="6">
+                    <el-form-item label="楼盘总建面:">
+                        <el-input v-model="buildingInfo.totalarea" style="width:260px"></el-input>
+                        ㎡
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="楼盘容积率:">
+                        <el-input v-model="buildingInfo.arearate" style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="楼盘现状:">
+                        <el-select
+                                v-model="buildingInfo.nowtypeid"
+                                placeholder="请选择楼盘现状类型"
+                                style="width:260px">
+                            <el-option
+                                    v-for="item in carParkRank"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="6">
+                    <el-form-item label="楼盘总套数:">
+                        <el-input v-model="buildingInfo.buildingnumber" style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="楼盘销售均价:">
+                        <el-input v-model="buildingInfo.averageprice" style="width:260px"></el-input>
+                        元
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="开盘时间:">
+                        <el-input v-model="buildingInfo.saledate" style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="6">
+                    <el-form-item label="开盘期数:">
+                        <el-input v-model="buildingInfo.saleissue" style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="首次交房时间:">
+                        <el-input v-model="buildingInfo.delivereddate" style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="录入人:">
+                        <el-input v-model="buildingInfo.intputer" style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="6">
+                    <el-form-item label="新盘联系人:">
+                        <el-input v-model="buildingInfo.contacts" style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="联系人电话:">
+                        <el-input v-model="buildingInfo.contactstel" style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="录入时间:">
+                        <el-input v-model="buildingInfo.inputdate" style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
             <h4>停车场信息</h4>
-            <span>车位总数量：</span>
-            <el-input
-                    placeholder=""
-                    v-model="buildingName"
-                    style="width:215px">
-            </el-input>
-            <span style="margin-left: 25px;">车位分层数量：</span>
-            <el-input
-                    placeholder=""
-                    v-model="developer"
-                    style="width:302px">
-            </el-input>
-            <span style="margin-left: 30px;">车位开盘均价：</span>
-            <el-input
-                    placeholder=""
-                    v-model="management"
-                    style="width:313px">
-            </el-input>
-            <span>元</span>
-        </div>
-        <div class="demo-input-suffix" style="margin-top:15px;">
-            <span>符合贷后管理要求车位数量:</span>
-            <el-input
-                    placeholder=""
-                    style="width:215px">
-            </el-input>
-            <span>㎡</span>
-            <span style="margin-left: 10px;">车位配比：</span>
-            <el-input
-                    placeholder=""
-                    style="width:215px">
-            </el-input>
-        </div>
-        <div class="demo-input-suffix" style="margin-top:15px;">
-            <span>地上平面车位：</span>
-            <el-input
-                    placeholder=""
-                    style="width:215px">
-            </el-input>
-            <span style="margin-left: 10px;">地下平面车位：</span>
-            <el-input
-                    placeholder=""
-                    style="width:215px">
-            </el-input>
-            <span>平面车位管理费：</span>
-            <el-input
-                    placeholder=""
-                    style="width:215px">
-            </el-input>
-            <span>元</span>
-        </div>
-        <div class="demo-input-suffix" style="margin-top:15px;">
-            <span>地上机械车位：</span>
-            <el-input
-                    placeholder=""
-                    style="width:215px">
-            </el-input>
-            <span style="margin-left: 10px;">地下机械车位：</span>
-            <el-input
-                    placeholder=""
-                    style="width:215px">
-            </el-input>
-            <span>平面机械管理费：</span>
-            <el-input
-                    placeholder=""
-                    style="width:215px">
-            </el-input>
-            <span>元</span>
-        </div>
+            <el-row>
+                <el-col :span="6">
+                    <el-form-item label="车位总数量:">
+                        <el-input style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="车位分层数量:">
+                        <el-input style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="车位开盘均价:">
+                        <el-input style="width:260px"></el-input>
+                        元
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="6">
+                    <el-form-item label="符合贷后管理要求车位数量:">
+                        <el-input style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="车位配比:">
+                        <el-input style="width:260px"></el-input>
+                        元
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="6">
+                    <el-form-item label="地上平面车位:">
+                        <el-input style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="地下平面车位:">
+                        <el-input style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="平面车位管理费:">
+                        <el-input style="width:260px"></el-input>
+                        元
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="6">
+                    <el-form-item label="地上机械车位:">
+                        <el-input style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="地下机械车位:">
+                        <el-input style="width:260px"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                    <el-form-item label="平面机械管理费:">
+                        <el-input style="width:260px"></el-input>
+                        元
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
     </div>
 </div>
 
@@ -255,6 +260,6 @@
 <!-- import JavaScript -->
 <script src="../../vue/index.js"></script>
 <script src="../../js/util.js"></script>
-<script src="../../js/rems/AddBuildingInfo.js"></script>
+<script src="../../js/BuildingInfo/AddBuildingInfo.js"></script>
 </body>
 </html>

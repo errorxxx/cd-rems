@@ -2,9 +2,95 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="../../css/index.css">
+    <style>
+        /* 隐藏未编译的变量 */
+
+        [v-cloak] {
+            display: none;
+        }
+    </style>
 </head>
 <body>
+<div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:10px">
+    <div style="margin-left:20px;">
+        <div class="nav-title">
+            <a href="Shops.html" style="text-decoration: none" class="non-current-nav">调研楼盘信息管理</a> &nbsp;<i
+                class="non-current-nav">/ </i> <a href="javascript:;" style="text-decoration: none"
+                                                  class="current-nav-strong">新增楼盘销售情况</a>
+        </div>
+        <div class="demo-input-suffix">
+            <h4>楼盘开盘信息</h4>
+            <el-form :inline="true" label-width="100px">
+                <el-row :gutter="10">
+                    <el-col :span="6">
+                        <el-form-item label="楼盘名称:">
+                            <el-select v-model="selectedBuildingSet" filterable :clearable="true" style="width:260px">
+                                <!--:filter-method="findItemByPY" -->
+                                <el-option>
+                                    <!--v-for="item in bookItems"-->
+                                    <!--:key="item.itemid"-->
+                                    <!--:label="item.itemname"-->
+                                    <!--:value="item.itemname">-->
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="录入人:">
+                            张三
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="录入时间:">
+                            <el-input style="width:260px"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="6">
+                        <el-form-item label="一期开盘时间:">
+                            <el-input style="width:260px"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="一期交房时间:">
+                            <el-input style="width:260px"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="一期销售均价:">
+                            <el-input style="width:260px"></el-input>元/㎡
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="6">
+                        <el-form-item label="一期交房率:">
+                            <el-input style="width:260px"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="一期入住率:">
+                            <el-input style="width:260px"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+        </div>
+    </div>
+</div>
 
+<script src="../../js/jquery.min.js"></script>
+<!-- import Vue before Element -->
+<script src="../../vue/vue.js"></script>
+<script src="../../vue/vue-resource.js"></script>
+<!--import moment js-->
+<script src="../../moment/moment.js"></script>
+<!-- import JavaScript -->
+<script src="../../vue/index.js"></script>
+<script src="../../js/util.js"></script>
+<script src="../../js/shops/AddShops.js"></script>
 </body>
 </html>
