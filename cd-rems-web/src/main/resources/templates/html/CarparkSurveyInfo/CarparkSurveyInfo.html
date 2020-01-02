@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>楼盘楼栋基本信息</title>
+    <title>楼盘停车场勘查信息</title>
     <!-- import CSS -->
     <link rel="stylesheet" href="../../css/index.css">
     <style>
@@ -30,7 +30,7 @@
 <body>
 <div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:10px">
     <div id="left" style="width:300px;float:left;">
-        <el-input placeholder="请输入内容" v-model="input3" class="input-with-select">
+        <el-input placeholder="请输入内容" class="input-with-select">
             <el-button slot="append" icon="el-icon-search"></el-button>
         </el-input>
         <div v-for="o in 4" :key="o" class="text item">
@@ -38,67 +38,66 @@
         </div>
     </div>
     <div id="right" style="width:1500px;float:left;">
-        <div style="float:right;margin-right:20px;margin-top:20px;">
-            <el-row>
-                <el-button type="success" @click="exportData">导出</el-button>
-                <el-button type="primary" plain icon="el-icon-plus" style="margin-left:25px;" @click="add">添加
-                </el-button>
-            </el-row>
-        </div>
-        <div style="margin-left:20px;">
-            <div class="demo-input-suffix">
-                <span>录入人：</span>
-                <span>张三</span>
-                <span>&nbsp&nbsp&nbsp</span>
-                <span>录入时间：</span>
-                <span>2019-12-19</span>
-            </div>
-
-            <el-table
-                    ref="singvarable"
-                    :data="tableData"
-                    highlight-current-row
-                    style="width:100%;margin-top:20px;">
-                <el-table-column
-                        type="index"
-                        min-width="9%">
-                </el-table-column>
-                <el-table-column
-                        property="carparkname"
-                        label="楼号"
-                        min-width="20%">
-                </el-table-column>
-                <el-table-column
-                        property="carparkaddress"
-                        label="层数"
-                        min-width="26%">
-                </el-table-column>
-                <el-table-column
-                        property="carparkrank"
-                        label="销售单价"
-                        min-width="15%">
-                </el-table-column>
-                <el-table-column
-                        label="操作"
-                        min-width="15%">
-                    <el-button type="text" size="medium" icon="el-icon-edit">修改</el-button>
-                    <el-button type="text" size="medium" icon="el-icon-devare">删除</el-button>
-                </el-table-column>
-            </el-table>
-            <!--分页-->
-            <div class="block" style="display:block;margin-top: 10px;">
-                <el-pagination align='center' background
-                               @size-change="handleSizeChange"
-                               @current-change="handleCurrentChange"
-                               :current-page="currentPage"
-                               :page-sizes="[1,5,10,20,50]"
-                               :page-size="pageSize"
-                               layout="total, sizes, prev, pager, next, jumper"
-                               :total="totalCount">
-                </el-pagination>
-            </div>
-            <br><br><br>
-        </div>
+        <el-row>
+            <el-button type="success" @click="exportData">修改</el-button>
+            <el-button type="primary" plain icon="el-icon-delete" @click="add">添加</el-button>
+            <el-button type="success" @click="exportData">导出</el-button>
+            <el-button type="primary" plain icon="el-icon-plus" style="margin-left:25px;" @click="add">添加
+            </el-button>
+        </el-row>
+        <el-row :gutter="10">
+            <span>录入人：</span>
+            <span>张三</span>
+            <span>&nbsp&nbsp&nbsp</span>
+            <span>录入时间：</span>
+            <span>2019-12-19</span>
+        </el-row>
+        <el-row :gutter="10">
+            <el-col :span="6">
+                楼盘名称:
+                <el-input v-model="buildingInfo.buildingname" style="width:260px"></el-input>
+            </el-col>
+            <el-col :span="2">
+                楼盘地址:
+            </el-col>
+            <el-col :span="2">
+                <el-select v-model="caddress.sheng" style="flex: 1;width:155px;" placeholder="请选择省份"
+                           @change="getCityData">
+                    <el-option
+                            v-for="item in addressArray"
+                            :key="item.areacode"
+                            :label="item.areaname"
+                            :value="item.areaname"
+                    >
+                    </el-option>
+                </el-select>
+            </el-col>
+            <el-col :span="2">
+                <el-select v-model="caddress.shi" style="flex: 1;width:155px;" placeholder="请选择市区"
+                           @change="getAreaData">
+                    <el-option
+                            v-for="item in cityArray"
+                            :key="item.areacode"
+                            :label="item.areaname"
+                            :value="item.areaname">
+                    </el-option>
+                </el-select>
+            </el-col>
+            <el-col :span="2">
+                <el-select v-model="caddress.qu" style="flex: 1;width:155px;" placeholder="请选择县"
+                           @change="onAreaChanged">
+                    <el-option
+                            v-for="item in areaArray"
+                            :key="item.areacode"
+                            :label="item.areaname"
+                            :value="item.areaname">
+                    </el-option>
+                </el-select>
+            </el-col>
+            <el-col :span="4">
+                详细地址
+            </el-col>
+        </el-row>
     </div>
 </div>
 <script src="../../js/jquery.min.js"></script>
@@ -111,8 +110,9 @@
 <script src="../../vue/index.js"></script>
 <script src="../../js/util.js"></script>
 <script>
-    var _minDate = null;
-    var _maxDate = null;
+    var _minDate = new Date();
+    var _maxDate = new Date();
+    var date = new Date();
     var Vue = new Vue({
         el: '#app',
         data() {
@@ -133,6 +133,24 @@
                     {label: 'C', value: '3'},
                     {label: 'D', value: '4'}
                 ],
+                buildingInfo: {
+                    buildingname: '',
+                    developer: '',
+                    propertymanager: '',
+                    propertymanagerfee: '',
+                    totalarea: 0,
+                    arearate: 0,
+                    nowtypeid: 0,
+                    buildingnumber: 0,
+                    averageprice: 0,
+                    saledate: date,
+                    saleissue: '',
+                    delivereddate: date,
+                    intputer: '',
+                    contacts: '',
+                    contactstel: '',
+                    inputdate: date
+                },
                 carparkName: '',//停车场名称
                 areaJson: '/json/address.json',
                 addressArray: [],//所有数据

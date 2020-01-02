@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>楼盘停车场信息</title>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="../../css/index.css">
+    <style>
+        /* 隐藏未编译的变量 */
+
+        [v-cloak] {
+            display: none;
+        }
+
+        /*分页样式*/
+        .el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li {
+            margin: 0 5px;
+            background-color: #e0e0fa;
+            color: #5a5e66;
+            min-width: 30px;
+            border-radius: 2px;
+        }
+
+        .activeDate {
+            color: #65a3ed;
+            background-color: #e3f2f2;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:10px">
+    <div id="left" style="width:300px;float:left;">
+        <el-input placeholder="请输入内容" v-model="input3" class="input-with-select">
+            <el-button slot="append" icon="el-icon-search"></el-button>
+        </el-input>
+        <div v-for="o in 4" :key="o" class="text item">
+            {{'列表内容 ' + o }}
+        </div>
+    </div>
+    <div id="right" style="width:1500px;float:right;">
+        <div style="float:right;margin-right:20px;margin-top:20px;">
+            <el-row>
+                <el-button type="success" @click="exportData">修改</el-button>
+                <el-button type="primary" plain icon="el-icon-delete" @click="add">删除
+                </el-button>
+                <el-button type="success" @click="exportData">导出</el-button>
+                <el-button type="primary" plain icon="el-icon-plus" style="margin-left:25px;" @click="add">添加
+                </el-button>
+            </el-row>
+        </div>
+
+        <div style="margin-left:20px;">
+            <div class="demo-input-suffix">
+                <span>录入人：</span>
+                <span>张三</span>
+                <span>&nbsp&nbsp&nbsp</span>
+                <span>录入时间：</span>
+                <span>2019-12-19</span>
+            </div>
+            <br><br><br>
+            <el-row :gutter="10">
+                <el-col :span="2">
+                    <span>国有土地使用证</span>
+                </el-col>
+                <el-col :span="6">
+                    <el-image :src="src" :fit="fill"></el-image>
+                </el-col>
+                <el-col :span="6">
+                    <el-image :src="src" :fit="fill"></el-image>
+                </el-col>
+            </el-row>
+            <br><br>
+            <el-row :gutter="10">
+                <el-col :span="2">
+                    <span>建设用地规划许可证</span>
+                </el-col>
+                <el-col :span="6">
+                    <el-image :src="src" :fit="fill"></el-image>
+                </el-col>
+            </el-row>
+            <br><br>
+            <el-row :gutter="10">
+                <el-col :span="2">
+                    <span>建设工程规划许可证</span>
+                </el-col>
+                <el-col :span="6">
+                    <el-image :src="src" :fit="fill"></el-image>
+                </el-col>
+            </el-row>
+            <br><br>
+            <el-row :gutter="10">
+                <el-col :span="2">
+                    <span>建设工程施工许可证</span>
+                </el-col>
+                <el-col :span="6">
+                    <el-image :src="src" :fit="fill"></el-image>
+                </el-col>
+            </el-row>
+            <br><br>
+            <el-row :gutter="10">
+                <el-col :span="2">
+                    <span>商品房销售（预售）许可证</span>
+                </el-col>
+                <el-col :span="6">
+                    <el-image :src="src" :fit="fill"></el-image>
+                </el-col>
+            </el-row>
+        </div>
+    </div>
+</div>
+<script src="../../js/jquery.min.js"></script>
+<!-- import Vue before Element -->
+<script src="../../vue/vue.js"></script>
+<script src="../../vue/vue-resource.js"></script>
+<!--import moment js-->
+<script src="../../moment/moment.js"></script>
+<!-- import JavaScript -->
+<script src="../../vue/index.js"></script>
+<script src="../../js/util.js"></script>
+<script>
+    var date = new Date();
+    var Vue = new Vue({
+        el: '#app',
+        data() {
+            return {
+                carparkname: '',
+                carparknumber: 0,
+                fieldscarparknumber: 0,
+                fieldscarparkprice: 0,
+                beasementonecarparknumber: 0,
+                beasementonecarparkprice: 0,
+                src: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+            }
+        },
+        mounted: function () {
+            Vue.nextTick(function () {
+
+            })
+        },
+        methods: {}
+    })
+</script>
+</body>
+</html>

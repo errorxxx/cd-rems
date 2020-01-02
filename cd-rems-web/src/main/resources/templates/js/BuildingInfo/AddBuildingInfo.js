@@ -35,10 +35,21 @@ var Vue = new Vue({
                 intputer:'',
                 contacts:'',
                 contactstel:'',
-                inputdate:date
+                inputdate:date,
+                carparknumber:0,
+                carparklayernumber:0,
+                carparkprice:0,
+                ntcarparknumber:0,
+                carparkrate:0,
+                upcarpark:0,
+                downcarpark:0,
+                carparkfee:0,
+                upmacarpark:0,
+                downmacarpark:0,
+                mafee:0
             },
             xxdz:'',//详细地址
-            areaJson: '../json/address.json',
+            areaJson: '../../json/address.json',
             addressArray: [],//所有数据
             cityArray: [],
             areaArray: [],

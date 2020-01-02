@@ -21,10 +21,10 @@
                                                   class="current-nav-strong">新增楼盘销售情况</a>
         </div>
         <div class="demo-input-suffix">
-            <h4>楼盘开盘信息</h4>
-            <el-form :inline="true" label-width="100px">
+            <h4>基本信息</h4>
+            <el-form :inline="true" label-width="120px">
                 <el-row :gutter="10">
-                    <el-col :span="6">
+                    <el-col :span="12">
                         <el-form-item label="楼盘名称:">
                             <el-select v-model="selectedBuildingSet" filterable :clearable="true" style="width:260px">
                                 <!--:filter-method="findItemByPY" -->
@@ -50,30 +50,57 @@
                 </el-row>
                 <el-row>
                     <el-col :span="6">
-                        <el-form-item label="一期开盘时间:">
+                        <el-form-item label="已售房屋总套数:">
                             <el-input style="width:260px"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
-                        <el-form-item label="一期交房时间:">
-                            <el-input style="width:260px"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="一期销售均价:">
+                        <el-form-item label="当前售卖均价:">
                             <el-input style="width:260px"></el-input>元/㎡
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="已售车位总数量:">
+                            <el-input style="width:260px"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="当前售价:">
+                            <el-input style="width:260px"></el-input>元
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="6">
-                        <el-form-item label="一期交房率:">
+                        <el-form-item label="当前综合入住率:">
                             <el-input style="width:260px"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
-                        <el-form-item label="一期入住率:">
+                        <el-form-item label="当前综合交房率:">
                             <el-input style="width:260px"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="已售商铺总数量:">
+                            <el-input style="width:260px"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="已售商铺总面积:">
+                            <el-input style="width:260px"></el-input>㎡
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="6">
+                        <el-form-item label="当前商铺售价:">
+                            <el-input style="width:260px"></el-input>元/㎡
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="当前商铺租金:">
+                            <el-input style="width:260px"></el-input>元/㎡
                         </el-form-item>
                     </el-col>
                 </el-row>
