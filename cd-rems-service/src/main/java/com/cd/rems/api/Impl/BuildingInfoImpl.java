@@ -25,4 +25,9 @@ public class BuildingInfoImpl implements BuildingInfoApi {
     public List<TBuildinginfo> selectAll() {
         return buildingInfoService.selectAll();
     }
+
+    @Override
+    public void addBuildingInfo(TBuildinginfo tBuildinginfo) {
+        this.buildingInfoService.addBuildingInfo(tBuildinginfo);
+    }
 }

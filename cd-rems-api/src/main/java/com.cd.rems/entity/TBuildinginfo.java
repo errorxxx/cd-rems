@@ -1,5 +1,7 @@
 package com.cd.rems.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -48,6 +50,7 @@ public class TBuildinginfo implements Serializable {
      *
      * @mbg.generated
      */
+    @JsonFormat(pattern = "yyyy-MM-dd mm:dd:ss", timezone = "GMT+8")
     private Date addtime;
 
     /**
@@ -102,6 +105,7 @@ public class TBuildinginfo implements Serializable {
      *
      * @mbg.generated
      */
+    @JsonFormat(pattern = "yyyy-MM-dd mm:dd:ss", timezone = "GMT+8")
     private Date saledate;
 
     /**
@@ -120,6 +124,7 @@ public class TBuildinginfo implements Serializable {
      *
      * @mbg.generated
      */
+    @JsonFormat(pattern = "yyyy-MM-dd mm:dd:ss", timezone = "GMT+8")
     private Date delivereddate;
 
     /**
@@ -156,6 +161,7 @@ public class TBuildinginfo implements Serializable {
      *
      * @mbg.generated
      */
+    @JsonFormat(pattern = "yyyy-MM-dd mm:dd:ss", timezone = "GMT+8")
     private Date inputdate;
 
     /**
@@ -531,6 +537,7 @@ public class TBuildinginfo implements Serializable {
      *
      * @mbg.generated
      */
+    @JsonFormat(pattern = "yyyy-MM-dd mm:dd:ss", timezone = "GMT+8")
     public Date getSaledate() {
         return saledate;
     }

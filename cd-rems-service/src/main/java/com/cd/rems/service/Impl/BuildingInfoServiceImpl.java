@@ -21,4 +21,11 @@ public class BuildingInfoServiceImpl implements BuildingInfoService {
     public List<TBuildinginfo> selectAll() {
         return this.buildinginfoMapper.selectAll();
     }
+
+    @Override
+    public void addBuildingInfo(TBuildinginfo tBuildinginfo) {
+        int insert = this.buildinginfoMapper.insert(tBuildinginfo);
+    }
+
+
 }

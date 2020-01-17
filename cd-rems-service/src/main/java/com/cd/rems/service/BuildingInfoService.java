@@ -11,4 +11,6 @@ import java.util.List;
  */
 public interface BuildingInfoService {
     List<TBuildinginfo> selectAll();
+
+    void addBuildingInfo(TBuildinginfo tBuildinginfo);
 }
