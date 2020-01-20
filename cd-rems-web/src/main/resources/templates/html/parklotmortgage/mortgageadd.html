@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../../css/custom.css">
     <style>
         /* 隐藏未编译的变量 */
-
         [v-cloak] {
             display: none;
         }
@@ -19,67 +18,55 @@
         <div class="nav-title">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><a href="javascript:;">贷后资产项目管理</a></el-breadcrumb-item>
-                <el-breadcrumb-item><a href="./carparkindex.html">停车场基本信息</a></el-breadcrumb-item>
-                <el-breadcrumb-item>编辑停车场基本信息</el-breadcrumb-item>
+                <el-breadcrumb-item><a href="./mortgageindex.html">抵押车位信息</a></el-breadcrumb-item>
+                <el-breadcrumb-item>新增抵押车位信息</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="demo-input-suffix" style="margin-top:20px">
-            <el-form ref="form" :model="form" label-width="130px">
+            <el-form ref="form" :model="form" label-width="110px">
                 <el-row>
                     <el-col>
                         <label>基本信息</label>
                     </el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="6">
-                        <el-form-item label="停车场名称：">
+                    <el-col :span="7">
+                        <el-form-item label="车位号：">
                             <el-input
-                                    placeholder=""
+                                    placeholder="请输入车位号"
                                     v-model="carparkName"
                                     style="width:215px">
                             </el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="16">
-                        <el-form-item label="停车场地址：">
-                            <el-select  v-model="caddress.sheng" style="flex: 1;width:155px;" placeholder="请选择省份" @change="getCityData">
-                                <el-option
-                                        v-for="item in addressArray"
-                                        :key="item.areacode"
-                                        :label="item.areaname"
-                                        :value="item.areaname"
-                                >
-                                </el-option>
-                            </el-select>
-                            <el-select  v-model="caddress.shi" style="flex: 1;width:155px;" placeholder="请选择市区"
-                                        @change="getAreaData">
-                                <el-option
-                                        v-for="item in cityArray"
-                                        :key="item.areacode"
-                                        :label="item.areaname"
-                                        :value="item.areaname">
-                                </el-option>
-                            </el-select>
-                            <el-select  v-model="caddress.qu" style="flex: 1;width:155px;" placeholder="请选择县"
-                                        @change="onAreaChanged">
-                                <el-option
-                                        v-for="item in areaArray"
-                                        :key="item.areacode"
-                                        :label="item.areaname"
-                                        :value="item.areaname">
-                                </el-option>
-                            </el-select>
+                    <el-col :span="7">
+                        <el-form-item label="车位证编号：">
                             <el-input
-                                    placeholder="请输入详细地址"
-                                    v-model="xxdz"
-                                    style="width:230px">
+                                    placeholder="请输入车位证编号"
+                                    v-model="carparkName"
+                                    style="width:240px">
                             </el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="7">
+                        <el-form-item label="贷款状态：">
+                            <el-select
+                                    v-model="carParkRankValue"
+                                    placeholder="请选择贷款状态"
+                                    style="width:215px">
+                                <el-option
+                                        v-for="item in carParkRank"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="6">
-                        <el-form-item label="开发商名称：">
+                    <el-col :span="7">
+                        <el-form-item label="抵押人：">
                             <el-input
                                     placeholder=""
                                     v-model="buildingName"
@@ -87,28 +74,34 @@
                             </el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="8">
-                        <el-form-item label="物业名称：">
+                    <el-col :span="7">
+                        <el-form-item label="抵押人电话：">
                             <el-input
                                     placeholder=""
                                     v-model="developer"
-                                    style="width:285px">
+                                    style="width:240px">
                             </el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="8">
-                        <el-form-item label="管理方名称：">
-                            <el-input
-                                    placeholder=""
-                                    v-model="management"
-                                    style="width:285px">
-                            </el-input>
+                    <el-col :span="7">
+                        <el-form-item label="贷款周期：">
+                            <el-select
+                                    v-model="carParkRankValue"
+                                    placeholder="请选择贷款周期"
+                                    style="width:215px">
+                                <el-option
+                                        v-for="item in carParkRank"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="6">
-                        <el-form-item label="运营方名称：">
+                    <el-col :span="7">
+                        <el-form-item label="贷款利率：">
                             <el-input
                                     placeholder=""
                                     v-model="buildingName"
@@ -116,12 +109,12 @@
                             </el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="8">
-                        <el-form-item label="停车场性质：">
+                    <el-col :span="7">
+                        <el-form-item label="逾期状态：">
                             <el-select
                                     v-model="carParkRankValue"
-                                    placeholder="请选择停车场性质"
-                                    style="width:285px">
+                                    placeholder="请选择逾期状态"
+                                    style="width:240px">
                                 <el-option
                                         v-for="item in carParkRank"
                                         :key="item.value"
@@ -131,61 +124,18 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="8">
-                        <el-form-item label="停车场类型：">
-                            <el-select
-                                    v-model="carParkRankValue"
-                                    placeholder="请选择停车场类型"
-                                    style="width:285px">
-                                <el-option
-                                        v-for="item in carParkRank"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="6">
-                        <el-form-item label="停车场评级：">
-                            <el-select
-                                    v-model="carParkRankValue"
-                                    placeholder="请选择停车场评级"
+                    <el-col :span="7">
+                        <el-form-item label="累计逾期次数：">
+                            <el-input
+                                    placeholder=""
+                                    v-model="buildingName"
                                     style="width:215px">
-                                <el-option
-                                        v-for="item in carParkRank"
-                                        :key="item.value"
-                                        :label="item.label"
-                                        :value="item.value">
-                                </el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item label="车位总数量：">
-                            <el-input
-                                    type="number"
-                                    placeholder=""
-                                    v-model="carparkTotal"
-                                    style="width:285px">
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                        <el-form-item label="贷后管理车位数：">
-                            <el-input
-                                    type="number"
-                                    placeholder=""
-                                    v-model="carparkTotalLoan"
-                                    style="width:285px">
-                            </el-input>
+                            </el-input><span>次</span>
                         </el-form-item>
                     </el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="6">
+                    <el-col :span="7">
                         <el-form-item label="录入人：">
                             <el-input
                                     placeholder=""
@@ -194,12 +144,12 @@
                             </el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="8">
+                    <el-col :span="7">
                         <el-form-item label="录入时间：">
                             <el-input
                                     placeholder=""
                                     v-model="buildingName"
-                                    style="width:285px">
+                                    style="width:240px">
                             </el-input>
                         </el-form-item>
                     </el-col>
@@ -213,7 +163,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="16">
-                        <el-form-item label="国有土地使用证：">
+                        <el-form-item label="车位位置图：">
                             <div>
                                 <el-upload
                                         action="https://jsonplaceholder.typicode.com/posts/"
@@ -231,7 +181,7 @@
                 </el-row>
                 <el-row>
                     <el-col :span="16">
-                        <el-form-item label="建设用地规划许可证：">
+                        <el-form-item label="车位证：">
                             <div>
                                 <el-upload
                                         action="https://jsonplaceholder.typicode.com/posts/"
@@ -243,24 +193,6 @@
                                 <el-dialog :visible.sync="dialogVisible">
                                     <img width="100%" :src="dialogImageUrl" alt="">
                                 </el-dialog>
-                            </div>
-                        </el-form-item>
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="16">
-                        <el-form-item label="建设工程规划许可证：">
-                            <div>
-                                <el-dialog :visible.sync="dialogVisible">
-                                    <img width="100%" :src="dialogImageUrl" alt="">
-                                </el-dialog>
-                                <el-upload
-                                        action="https://jsonplaceholder.typicode.com/posts/"
-                                        list-type="picture-card"
-                                        :on-preview="handlePictureCardPreview"
-                                        :on-remove="handleRemove">
-                                    <i class="el-icon-plus"></i>
-                                </el-upload>
                             </div>
                         </el-form-item>
                     </el-col>
@@ -278,6 +210,7 @@
     </div>
 </div>
 
+
 <script src="../../js/jquery.min.js"></script>
 <!-- import Vue before Element -->
 <script src="../../vue/vue.js"></script>
@@ -287,6 +220,6 @@
 <!-- import JavaScript -->
 <script src="../../vue/index.js"></script>
 <script src="../../js/util.js"></script>
-<script src="../../js/carpark/carparkedit.js"></script>
+<script src="../../js/parklotmortgage/mortgageadd.js"></script>
 </body>
 </html>

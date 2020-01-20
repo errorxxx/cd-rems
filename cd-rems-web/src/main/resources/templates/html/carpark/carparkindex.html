@@ -26,79 +26,92 @@
 </head>
 <body>
 <div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:10px" >
-    <div style="float:right;margin-right:20px;margin-top:20px;">
-        <el-row>
-            <el-button type="success" @click="exportData">导出</el-button>
-            <el-button type="primary" style="margin-left:25px;" @click="search">查询</el-button>
-            <el-button type="primary" plain icon="el-icon-plus" style="margin-left:25px;" @click="add">添加</el-button>
-        </el-row>
+    <div style="float:right;margin-right:10px;margin-top:20px;">
+        <el-button type="primary" @click="search">查询</el-button>
+        <el-button type="success" style="margin-left:7px;" @click="exportData">导出</el-button>
+        <el-button type="primary" plain icon="el-icon-plus" style="margin-left:7px;" @click="add">添加</el-button>
+    </div>
+    <div style="margin-left:20px; float:left;">
+        <el-form ref="form" :model="form" label-width="100px">
+            <el-row>
+                <el-col :span="7">
+                    <el-form-item label="停车场名称：">
+                        <el-input
+                                placeholder="请输入停车场名称"
+                                v-model="carparkName"
+                                style="width:160px">
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="16">
+                    <el-form-item label="停车场地址：">
+                        <el-select  v-model="caddress.sheng" style="flex: 1;width:175px;" placeholder="请选择省份" @change="getCityData">
+                            <el-option
+                                    v-for="item in addressArray"
+                                    :key="item.areacode"
+                                    :label="item.areaname"
+                                    :value="item.areaname"
+                            >
+                            </el-option>
+                        </el-select>
+                        <el-select  v-model="caddress.shi" style="flex: 1;width:175px;" placeholder="请选择市区"
+                                    @change="getAreaData">
+                            <el-option
+                                    v-for="item in cityArray"
+                                    :key="item.areacode"
+                                    :label="item.areaname"
+                                    :value="item.areaname">
+                            </el-option>
+                        </el-select>
+                        <el-select  v-model="caddress.qu" style="flex: 1;width:180px;" placeholder="请选择县"
+                                    @change="onAreaChanged">
+                            <el-option
+                                    v-for="item in areaArray"
+                                    :key="item.areacode"
+                                    :label="item.areaname"
+                                    :value="item.areaname">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="5">
+                    <el-form-item label="停车场评级：">
+                        <el-select
+                                v-model="carParkRankValue"
+                                placeholder="请选择停车场评级"
+                                style="width:160px">
+                            <el-option
+                                    v-for="item in carParkRank"
+                                    :key="item.value"
+                                    :label="item.label"
+                                    :value="item.value">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="18">
+                    <el-form-item>
+                        <el-button size="small" class="selectToday" @click="selectToday">今日</el-button>
+                        <el-button size="small" class="selectThisWeek" @click="selectThisWeek">本周</el-button>
+                        <el-button size="small" class="selectThisMonth" @click="selectThisMonth">本月</el-button>
+                        <el-button size="small" class="selectThisYear" @click="selectThisYear">全年</el-button>
+                        <el-date-picker
+                                v-model="dateRange"
+                                :picker-options="pickerOptions"
+                                type="daterange"
+                                value-format='yyyy-MM-dd'
+                                range-separator="至"
+                                start-placeholder="开始日期"
+                                end-placeholder="结束日期">
+                        </el-date-picker>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+        </el-form>
     </div>
     <div style="margin-left:20px;">
-        <div class="demo-input-suffix">
-            <span>停车场名称：</span>
-            <el-input
-                    placeholder="请输入停车场名称"
-                    v-model="carparkName"
-                    style="width:215px">
-            </el-input>
-            <span>停车场地址：</span>
-            <el-select  v-model="caddress.sheng" style="flex: 1;width:170px;" placeholder="请选择省份" @change="getCityData">
-                <el-option
-                        v-for="item in addressArray"
-                        :key="item.areacode"
-                        :label="item.areaname"
-                        :value="item.areaname"
-                >
-                </el-option>
-            </el-select>
-            <el-select  v-model="caddress.shi" style="flex: 1;width:170px;" placeholder="请选择市区"
-                        @change="getAreaData">
-                <el-option
-                        v-for="item in cityArray"
-                        :key="item.areacode"
-                        :label="item.areaname"
-                        :value="item.areaname">
-                </el-option>
-            </el-select>
-            <el-select  v-model="caddress.qu" style="flex: 1;width:170px;" placeholder="请选择县"
-                        @change="onAreaChanged">
-                <el-option
-                        v-for="item in areaArray"
-                        :key="item.areacode"
-                        :label="item.areaname"
-                        :value="item.areaname">
-                </el-option>
-            </el-select>
-        </div>
-        <div class="demo-input-suffix" style="margin-top:20px;">
-            <span>停车场评级：</span>
-            <el-select
-                    v-model="carParkRankValue"
-                    placeholder="请选择停车场评级"
-                    style="width:210px">
-                <el-option
-                        v-for="item in carParkRank"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
-            <el-button size="small" class="selectToday" @click="selectToday">今日</el-button>
-            <el-button size="small" class="selectThisWeek" @click="selectThisWeek">本周</el-button>
-            <el-button size="small" class="selectThisMonth" @click="selectThisMonth">本月</el-button>
-            <el-button size="small" class="selectThisYear" @click="selectThisYear">全年</el-button>
-            <el-date-picker
-                    v-model="dateRange"
-                    :picker-options="pickerOptions"
-                    type="daterange"
-                    value-format='yyyy-MM-dd'
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期">
-            </el-date-picker>
-
-        </div>
-
         <el-table
                 ref="singleTable"
                 :data="tableData"
@@ -183,6 +196,16 @@
                     {label:'C',value:'3'},
                     {label:'D',value:'4'}
                 ],
+                form: {
+                    name: '',
+                    region: '',
+                    date1: '',
+                    date2: '',
+                    delivery: false,
+                    type: [],
+                    resource: '',
+                    desc: ''
+                },
                 carparkName:'',//停车场名称
                 areaJson: '/json/address.json',
                 addressArray: [],//所有数据

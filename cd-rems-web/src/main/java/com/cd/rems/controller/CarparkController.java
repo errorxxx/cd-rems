@@ -42,7 +42,6 @@ public class CarparkController {
         int total = 0;
         List<CarparkVo>  carparkVos = new ArrayList<>();
         Map<String,Object> map = new HashMap<>();
-        System.out.println(carparkVo);
         if((carparkVo.getCarparkname() == null || carparkVo.getCarparkname() == "") &&
                 carparkVo.getCarparkrank() == null  &&
                 (carparkVo.getCarparkaddress() == null || carparkVo.getCarparkaddress() == "") &&
@@ -52,10 +51,8 @@ public class CarparkController {
             carparkVos = carparkApi.selectAllByPage(currentPageIndex,pageSize);
             map.put("list",carparkVos);
             map.put("total",total);
-            System.out.println(1);
             return new RetResult(RetCode.SUCCESS.getCode(),"success",map);//成功
         }else{//有查询条件
-            System.out.println(2);
             if(carparkVo.getCarparkrank() == null ){
                 carparkVo.setCarparkrank(-1);
             }
@@ -65,9 +62,6 @@ public class CarparkController {
             }
             total = carparkApi.selectCountAllByCondition(carparkVo);
             carparkVos = carparkApi.selectAllByConditionAndPage(carparkVo,currentPageIndex,pageSize);
-
-            System.out.println(total);
-            System.out.println(carparkVos);
             map.put("list",carparkVos);
             map.put("total",total);
             return new RetResult(RetCode.SUCCESS.getCode(),"success",map);//成功

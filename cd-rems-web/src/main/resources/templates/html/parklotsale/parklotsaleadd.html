@@ -7,145 +7,202 @@
     <link rel="stylesheet" href="../../css/custom.css">
     <style>
         /* 隐藏未编译的变量 */
-
         [v-cloak] {
             display: none;
         }
     </style>
 </head>
 <body>
-<div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:10px" >
+<div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:20px" >
     <div style="margin-left:20px;">
         <div class="nav-title">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><a href="./parklotsaleindex.html">车位基本信息</a></el-breadcrumb-item>
+                <el-breadcrumb-item><a href="javascript:;">贷后资产项目管理</a></el-breadcrumb-item>
+                <el-breadcrumb-item><a href="./parklotsaleindex.html">车位销售情况</a></el-breadcrumb-item>
                 <el-breadcrumb-item>新增车位销售情况</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="demo-input-suffix">
-            <h4>基本信息</h4>
-            <span style="margin-left: 45px;">车位号：</span>
-            <el-input
-                    placeholder="请输入车位号"
-                    v-model="carparkName"
-                    style="width:215px">
-            </el-input>
-            <span style="margin-left: 25px;">车位证编号：</span>
-            <el-input
-                    placeholder="请输入车位证编号"
-                    v-model="carparkName"
-                    style="width:215px">
-            </el-input>
-            <span style="margin-left: 40px;">车位类型：</span>
-            <el-select
-                    v-model="carParkRankValue"
-                    placeholder="请选择车位类型"
-                    style="width:215px">
-                <el-option
-                        v-for="item in carParkRank"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
+        <div class="demo-input-suffix" style="margin-top:20px">
+            <el-form ref="form" :model="form" label-width="110px">
+                <el-row>
+                    <el-col>
+                        <label>基本信息</label>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="7">
+                        <el-form-item label="车位号：">
+                            <el-input
+                                    placeholder="请输入车位号"
+                                    v-model="carparkName"
+                                    style="width:215px">
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="7">
+                        <el-form-item label="车位证编号：">
+                            <el-input
+                                    placeholder="请输入车位证编号"
+                                    v-model="carparkName"
+                                    style="width:240px">
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="7">
+                        <el-form-item label="车位类型：">
+                            <el-select
+                                    v-model="carParkRankValue"
+                                    placeholder="请选择车位类型"
+                                    style="width:215px">
+                                <el-option
+                                        v-for="item in carParkRank"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="7">
+                        <el-form-item label="车位所有人：">
+                            <el-input
+                                    placeholder=""
+                                    v-model="buildingName"
+                                    style="width:215px">
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="7">
+                        <el-form-item label="所有人电话：">
+                            <el-input
+                                    placeholder=""
+                                    v-model="developer"
+                                    style="width:240px">
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="7">
+                        <el-form-item label="当前状态：">
+                            <el-select
+                                    v-model="carParkRankValue"
+                                    placeholder="请选择车位当前状态"
+                                    style="width:215px">
+                                <el-option
+                                        v-for="item in carParkRank"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="7">
+                        <el-form-item label="车位购入时间：">
+                            <el-input
+                                    placeholder=""
+                                    v-model="buildingName"
+                                    style="width:215px">
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="7">
+                        <el-form-item label="车位购入价：">
+                            <el-input
+                                    placeholder=""
+                                    v-model="buildingName"
+                                    style="width:240px">
+                            </el-input><span>元</span>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="7">
+                        <el-form-item label="车位估值：">
+                            <el-input
+                                    placeholder=""
+                                    v-model="buildingName"
+                                    style="width:215px">
+                            </el-input><span>元</span>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="7">
+                        <el-form-item label="录入人：">
+                            <el-input
+                                    placeholder=""
+                                    v-model="buildingName"
+                                    style="width:215px">
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="7">
+                        <el-form-item label="录入时间：">
+                            <el-input
+                                    placeholder=""
+                                    v-model="buildingName"
+                                    style="width:240px">
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+            <el-form ref="form" :model="form" label-width="220px">
+                <el-row>
+                    <el-col>
+                        <label>资质文件</label>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="16">
+                        <el-form-item label="车位位置图：">
+                            <div>
+                                <el-upload
+                                        action="https://jsonplaceholder.typicode.com/posts/"
+                                        list-type="picture-card"
+                                        :on-preview="handlePictureCardPreview"
+                                        :on-remove="handleRemove">
+                                    <i class="el-icon-plus"></i>
+                                </el-upload>
+                                <el-dialog :visible.sync="dialogVisible">
+                                    <img width="100%" :src="dialogImageUrl" alt="">
+                                </el-dialog>
+                            </div>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col :span="16">
+                        <el-form-item label="车位证：">
+                            <div>
+                                <el-upload
+                                        action="https://jsonplaceholder.typicode.com/posts/"
+                                        list-type="picture-card"
+                                        :on-preview="handlePictureCardPreview"
+                                        :on-remove="handleRemove">
+                                    <i class="el-icon-plus"></i>
+                                </el-upload>
+                                <el-dialog :visible.sync="dialogVisible">
+                                    <img width="100%" :src="dialogImageUrl" alt="">
+                                </el-dialog>
+                            </div>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col>
+                        <el-form-item>
+                            <el-button type="success" style="margin-left:30%;" @click="addSubmit">提交</el-button>
+                            <el-button type="primary" style="margin-left:25px;" @click="addCancel">取消</el-button>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
         </div>
-        <div class="demo-input-suffix" style="margin-top:15px;">
-            <span style="margin-left: 15px;">车位所有人：</span>
-            <el-input
-                    placeholder=""
-                    v-model="buildingName"
-                    style="width:215px">
-            </el-input>
-            <span style="margin-left: 25px;">所有人电话：</span>
-            <el-input
-                    placeholder=""
-                    v-model="developer"
-                    style="width:215px">
-            </el-input>
-            <span style="margin-left: 40px;">当前状态：</span>
-            <el-select
-                    v-model="carParkRankValue"
-                    placeholder="请选择车位当前状态"
-                    style="width:215px">
-                <el-option
-                        v-for="item in carParkRank"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
-        </div>
-        <div class="demo-input-suffix" style="margin-top:15px;">
-            <span>车位购入时间：</span>
-            <el-input
-                    placeholder=""
-                    v-model="buildingName"
-                    style="width:215px">
-            </el-input>
-            <span style="margin-left: 25px;">车位购入价：</span>
-            <el-input
-                    placeholder=""
-                    v-model="buildingName"
-                    style="width:215px">
-            </el-input><span>元</span>
-            <span style="margin-left: 25px;">车位估值：</span>
-            <el-input
-                    placeholder=""
-                    v-model="buildingName"
-                    style="width:215px">
-            </el-input><span>元</span>
-        </div>
-        <div class="demo-input-suffix" style="margin-top:15px;">
-            <span style="margin-left:45px;">录入人：</span>
-            <el-input
-                    placeholder=""
-                    v-model="buildingName"
-                    style="width:215px">
-            </el-input>
-            <span style="margin-left:45px;">录入时间：</span>
-            <el-input
-                    placeholder=""
-                    v-model="buildingName"
-                    style="width:215px">
-            </el-input>
-        </div>
-        <div class="demo-input-suffix" style="margin-top:15px;">
-            <h4>资质文件</h4>
-            <label style="margin-left:60px;">车位位置图：</label>
-            <div style="margin-left:210px;">
-                <el-upload
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        list-type="picture-card"
-                        :on-preview="handlePictureCardPreview"
-                        :on-remove="handleRemove">
-                    <i class="el-icon-plus"></i>
-                </el-upload>
-                <el-dialog :visible.sync="dialogVisible">
-                    <img width="100%" :src="dialogImageUrl" alt="">
-                </el-dialog>
-            </div>
-
-            <label style="margin-left:90px;">车位证：</label>
-            <div style="margin-left:210px;">
-                <el-upload
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        list-type="picture-card"
-                        :on-preview="handlePictureCardPreview"
-                        :on-remove="handleRemove">
-                    <i class="el-icon-plus"></i>
-                </el-upload>
-                <el-dialog :visible.sync="dialogVisible">
-                    <img width="100%" :src="dialogImageUrl" alt="">
-                </el-dialog>
-            </div>
-        </div>
-        <div class="demo-input-suffix" style="margin-top:15px;">
-            <el-button type="success" style="margin-left:40%;" @click="addSubmit">提交</el-button>
-            <el-button type="primary" style="margin-left:25px;" @click="addCancel">取消</el-button>
-        </div><br><br>
     </div>
 </div>
-
 <script src="../../js/jquery.min.js"></script>
 <!-- import Vue before Element -->
 <script src="../../vue/vue.js"></script>

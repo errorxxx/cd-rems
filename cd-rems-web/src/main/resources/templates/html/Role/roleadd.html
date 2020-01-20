@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="../../css/index.css">
+    <link rel="stylesheet" href="../../css/custom.css">
+    <style>
+        /* 隐藏未编译的变量 */
+
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:10px" >
+    <div style="margin-left:20px;">
+        <div class="nav-title">
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item><a href="./role.html">角色管理</a></el-breadcrumb-item>
+                <el-breadcrumb-item>新增角色信息</el-breadcrumb-item>
+            </el-breadcrumb>
+        </div>
+        <div class="demo-input-suffix" style="margin-top:15px;margin-left:15% ">
+            <el-form :model="form" label-width="100px">
+                <el-form-item label="角色名称：">
+                    <el-input v-model="form.qq" autocomplete="off" style="width:500px"></el-input>
+                </el-form-item>
+                <el-form-item label="角色说明：">
+                    <el-input type="textarea" :rows="4" v-model="textarea" placeholder="请输入内容" autocomplete="off" style="width:500px"></el-input>
+                </el-form-item>
+                <el-form-item label="权限配置：">
+                    <div class="layer" style="margin-left:50px;width:90%">
+                        <div id="tableMain">
+                            <ul id="dataTree" class="ztree">
+                            </ul>
+                        </div>
+                    </div>
+                </el-form-item>
+
+            </el-form>
+        </div>
+
+        <div class="demo-input-suffix" style="margin-top:15px;">
+            <el-button type="success" style="margin-left:40%;" @click="addSubmit">提交</el-button>
+            <el-button type="primary" style="margin-left:25px;" @click="addCancel">取消</el-button>
+        </div><br><br>
+    </div>
+</div>
+
+<script src="../../js/jquery.min.js"></script>
+<!-- import Vue before Element -->
+<script src="../../vue/vue.js"></script>
+<script src="../../vue/vue-resource.js"></script>
+<!--import moment js-->
+<script src="../../moment/moment.js"></script>
+<!-- import JavaScript -->
+<script src="../../vue/index.js"></script>
+<script src="../../js/util.js"></script>
+<script src="../../js/role/roleadd.js?v=1.0.1"></script>
+</body>
+</html>

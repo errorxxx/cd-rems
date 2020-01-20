@@ -23,16 +23,7 @@ var Vue = new Vue({
             developer:'',//物业名称
             management:'',//管理方名称
             buildingName:'',//开发商名称
-            form: {
-                name: '',
-                region: '',
-                date1: '',
-                date2: '',
-                delivery: false,
-                type: [],
-                resource: '',
-                desc: ''
-            },
+
             areaJson: '/json/address.json',
             addressArray: [],//所有数据
             cityArray: [],

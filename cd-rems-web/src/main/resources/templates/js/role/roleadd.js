@@ -6,11 +6,14 @@ var Vue = new Vue({
             currentPage:1,
             pageSize:5,
             tableData: [],
+            form:{
+                qq:''
+            },
             //默认值设置，可为空
             caddress:{
                 sheng: '',
                 shi: '',
-                qu: '',
+                qu: ''
             },
             carParkRank:[
                 {label:'A',value:'1'},
@@ -23,16 +26,7 @@ var Vue = new Vue({
             developer:'',//物业名称
             management:'',//管理方名称
             buildingName:'',//开发商名称
-            form: {
-                name: '',
-                region: '',
-                date1: '',
-                date2: '',
-                delivery: false,
-                type: [],
-                resource: '',
-                desc: ''
-            },
+
             areaJson: '/json/address.json',
             addressArray: [],//所有数据
             cityArray: [],
