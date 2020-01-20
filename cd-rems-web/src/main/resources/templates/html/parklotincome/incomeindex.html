@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <!-- import CSS -->
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../../css/index.css">
     <style>
         /* 隐藏未编译的变量 */
-
         [v-cloak] {
             display: none;
         }
@@ -18,148 +17,168 @@
             min-width: 30px;
             border-radius: 2px;
         }
-        .activeDate{
-            color: #65a3ed;
-            background-color: #e3f2f2;
+        .side-nav ul {
+            padding:0;
+            margin:0;
+            text-align: left;
+            list-style-type: none;
+        }
+        .side-nav ul li {
+            width: 160px;
+            list-style: none;
+            padding: 10px 50px 10px 0px;
+            margin: 0px;
+        }
+        .side-nav ul li a{
+            color:#000000;
+            margin-left: 10px;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-<div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:10px" >
-    <div style="float:right;margin-right:20px;margin-top:20px;">
-        <el-row>
-            <el-button type="success" @click="exportData">导出</el-button>
-            <el-button type="primary" style="margin-left:25px;" @click="search">查询</el-button>
-            <el-button type="primary" plain icon="el-icon-plus" style="margin-left:25px;" @click="add">添加</el-button>
-        </el-row>
-    </div>
-    <div style="margin-left:20px;">
-        <div class="demo-input-suffix">
-            <span>停车场名称：</span>
+<div id="app" v-cloak>
+    <div style="width:18%;background-color: #ffffff;padding-top:10px;float:left" >
+        <div class="side-nav" style="width:90%;height:600px;margin: 0 auto">
             <el-input
-                    placeholder="请输入停车场名称"
-                    v-model="carparkName"
-                    style="width:215px">
+                    placeholder="请输入楼盘名称"
+                    suffix-icon="el-icon-search"
+                    v-model="input8">
             </el-input>
-            <span>停车场地址：</span>
-            <el-select  v-model="caddress.sheng" style="flex: 1;width:170px;" placeholder="请选择省份" @change="getCityData">
-                <el-option
-                        v-for="item in addressArray"
-                        :key="item.areacode"
-                        :label="item.areaname"
-                        :value="item.areaname"
-                >
-                </el-option>
-            </el-select>
-            <el-select  v-model="caddress.shi" style="flex: 1;width:170px;" placeholder="请选择市区"
-                        @change="getAreaData">
-                <el-option
-                        v-for="item in cityArray"
-                        :key="item.areacode"
-                        :label="item.areaname"
-                        :value="item.areaname">
-                </el-option>
-            </el-select>
-            <el-select  v-model="caddress.qu" style="flex: 1;width:170px;" placeholder="请选择县"
-                        @change="onAreaChanged">
-                <el-option
-                        v-for="item in areaArray"
-                        :key="item.areacode"
-                        :label="item.areaname"
-                        :value="item.areaname">
-                </el-option>
-            </el-select>
+            <div style="height:500px;overflow-y: auto;margin-left:0px;margin-top:15px;">
+                <ul>
+                    <li class="nav-item" style="background-color: #E4E7ED"><a href="#" class="active" style="background-color: #E4E7ED;">中正景城</a></li>
+                    <li class="nav-item"><a href="#" class="">中正花园</a></li>
+                    <li class="nav-item"><a href="#" class="">中正锦城</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="demo-input-suffix" style="margin-top:20px;">
-            <span>停车场评级：</span>
-            <el-select
-                    v-model="carParkRankValue"
-                    placeholder="请选择停车场评级"
-                    style="width:210px">
-                <el-option
-                        v-for="item in carParkRank"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                </el-option>
-            </el-select>
-            <el-button size="small" class="selectToday" @click="selectToday">今日</el-button>
-            <el-button size="small" class="selectThisWeek" @click="selectThisWeek">本周</el-button>
-            <el-button size="small" class="selectThisMonth" @click="selectThisMonth">本月</el-button>
-            <el-button size="small" class="selectThisYear" @click="selectThisYear">全年</el-button>
-            <el-date-picker
-                    v-model="dateRange"
-                    :picker-options="pickerOptions"
-                    type="daterange"
-                    value-format='yyyy-MM-dd'
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期">
-            </el-date-picker>
-
-        </div>
-
-        <el-table
-                ref="singleTable"
-                :data="tableData"
-                highlight-current-row
-                style="width:100%;margin-top:20px;">
-            <el-table-column
-                    type="index"
-                    min-width="9%">
-            </el-table-column>
-            <el-table-column
-                    property="carparkname"
-                    label="停车场名称"
-                    min-width="20%">
-            </el-table-column>
-            <el-table-column
-                    property="carparkaddress"
-                    label="停车场地址"
-                    min-width="26%">
-            </el-table-column>
-            <el-table-column
-                    property="carparkrank"
-                    label="停车场评级"
-                    min-width="15%">
-            </el-table-column>
-            <el-table-column
-                    property="entrytime"
-                    label="添加时间"
-                    min-width="15%">
-            </el-table-column>
-            <el-table-column
-                    label="操作"
-                    min-width="15%">
-                <el-button type="text" size="medium" icon="el-icon-edit">修改</el-button>
-                <el-button type="text" size="medium" icon="el-icon-delete">删除</el-button>
-            </el-table-column>
-        </el-table>
-        <!--分页-->
-        <div class="block" style="display:block;margin-top: 10px;">
-            <el-pagination align='center' background
-                           @size-change="handleSizeChange"
-                           @current-change="handleCurrentChange"
-                           :current-page="currentPage"
-                           :page-sizes="[1,5,10,20,50]"
-                           :page-size="pageSize"
-                           layout="total, sizes, prev, pager, next, jumper"
-                           :total="totalCount">
-            </el-pagination>
-        </div>
-        <br><br><br>
     </div>
-
+    <div style="width:81%;background-color: #ffffff;padding-top:10px;float:right" >
+        <div style="float:right;margin-right:10px;margin-top:20px;">
+            <el-button type="primary" @click="search">查询</el-button>
+            <el-button type="success" style="margin-left:7px;" @click="exportData">导出</el-button>
+            <el-button type="primary" plain icon="el-icon-plus" style="margin-left:7px;" @click="add">添加</el-button>
+        </div>
+        <div style=" float:left;">
+            <el-form ref="form" :model="form">
+                <el-row>
+                    <el-col :span="12">
+                        <el-form-item  label-width="100px" label="车位号：">
+                            <el-input
+                                    placeholder="请输入车位号"
+                                    v-model="carparkName"
+                                    style="width:225px">
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item  label-width="100px" label="收益类型：">
+                            <el-input
+                                    placeholder="请选择收益类型"
+                                    v-model="carparkName"
+                                    style="width:225px">
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row>
+                    <el-col>
+                        <el-form-item  label-width="30px">
+                            <el-button size="small" class="selectToday" @click="selectToday">今日</el-button>
+                            <el-button size="small" class="selectThisWeek" @click="selectThisWeek">本周</el-button>
+                            <el-button size="small" class="selectThisMonth" @click="selectThisMonth">本月</el-button>
+                            <el-button size="small" class="selectThisYear" @click="selectThisYear">全年</el-button>
+                            <el-date-picker
+                                    v-model="dateRange"
+                                    :picker-options="pickerOptions"
+                                    type="daterange"
+                                    value-format='yyyy-MM-dd'
+                                    range-separator="至"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期">
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
+        </div>
+        <div style="margin-left:20px;">
+            <el-table
+                    ref="singleTable"
+                    :data="tableData"
+                    highlight-current-row
+                    style="width:100%;margin-top:20px;">
+                <el-table-column
+                        type="index"
+                        min-width="8%">
+                </el-table-column>
+                <el-table-column
+                        property="carparkname"
+                        label="车位号"
+                        min-width="12%">
+                </el-table-column>
+                <el-table-column
+                        property="carparkaddress"
+                        label="车位证编号"
+                        min-width="12%">
+                </el-table-column>
+                <el-table-column
+                        property="carparkrank"
+                        label="收益类型"
+                        min-width="12%">
+                </el-table-column>
+                <el-table-column
+                        property="entrytime"
+                        label="收益项目"
+                        min-width="12%">
+                </el-table-column>
+                <el-table-column
+                        property="entrytime"
+                        label="收益金额"
+                        min-width="12%">
+                </el-table-column>
+                <el-table-column
+                        property="entrytime"
+                        label="收益时间"
+                        min-width="11%">
+                </el-table-column>
+                <el-table-column
+                        label="操作"
+                        min-width="18%">
+                    <el-button type="text" size="medium" icon="el-icon-edit" @click="updateCarparkInfo">修改</el-button>
+                    <el-button type="text" size="medium" icon="el-icon-delete" @click="delCarparkInfo">删除</el-button>
+                    <el-button type="text" size="medium" icon="el-icon-download" @click="delCarparkInfo">导入</el-button>
+                </el-table-column>
+            </el-table>
+            <!--分页-->
+            <div class="block" style="display:block;margin-top: 10px;">
+                <el-pagination align='center' background
+                               @size-change="handleSizeChange"
+                               @current-change="handleCurrentChange"
+                               :current-page="currentPage"
+                               :page-sizes="[1,5,10,20,50]"
+                               :page-size="pageSize"
+                               layout="total, sizes, prev, pager, next, jumper"
+                               :total="totalCount">
+                </el-pagination>
+            </div>
+            <br><br><br>
+        </div>
+    </div>
 </div>
-<script src="../js/jquery.min.js"></script>
+
+
+
+<script src="../../js/jquery.min.js"></script>
 <!-- import Vue before Element -->
-<script src="../vue/vue.js"></script>
-<script src="../vue/vue-resource.js"></script>
+<script src="../../vue/vue.js"></script>
+<script src="../../vue/vue-resource.js"></script>
 <!--import moment js-->
-<script src="../moment/moment.js"></script>
+<script src="../../moment/moment.js"></script>
 <!-- import JavaScript -->
-<script src="../vue/index.js"></script>
-<script src="../js/util.js"></script>
+<script src="../../vue/index.js"></script>
+<script src="../../js/util.js"></script>
 <script>
     let _minDate = null;
     let _maxDate = null;
@@ -243,7 +262,12 @@
                 Vue.getResource();
             },
             add(){//添加
-                window.location.href = contextPath+"/html/carparkadd.html";
+                window.location.href = contextPath+"/html/parklotincome/incomeadd.html";
+            },
+            updateCarparkInfo(){//编辑
+                window.location.href = contextPath+"/html/parklotincome/incomeedit.html";
+            },
+            delCarparkInfo(){//删除
             },
             exportData(){//导出
 

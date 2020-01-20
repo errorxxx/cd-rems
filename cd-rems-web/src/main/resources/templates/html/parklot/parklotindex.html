@@ -55,40 +55,51 @@
         </div>
     </div>
     <div style="width:81%;background-color: #ffffff;padding-top:10px;float:right" >
-        <div style="float:right;margin-right:20px;margin-top:20px;">
-            <el-row>
-                <el-button type="success" @click="exportData">导出</el-button>
-                <el-button type="primary" style="margin-left:25px;" @click="search">查询</el-button>
-                <el-button type="primary" plain icon="el-icon-plus" style="margin-left:25px;" @click="add">添加</el-button>
-            </el-row>
+        <div style="float:right;margin-right:10px;">
+            <el-button type="primary" @click="search">查询</el-button>
+            <el-button type="success" style="margin-left:7px;" @click="exportData">导出</el-button>
+            <el-button type="primary" plain icon="el-icon-plus" style="margin-left:7px;" @click="add">添加</el-button>
+        </div>
+        <div style=" float:left;">
+            <el-form ref="form" :model="form" label-width="100px">
+                <el-row>
+                    <el-col :span="8">
+                        <el-form-item label="车位号：">
+                            <el-input
+                                    placeholder="请输入车位号"
+                                    v-model="carparkName"
+                                    style="width:150px">
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="车位证编号：">
+                            <el-input
+                                    placeholder="请输入车位证编号"
+                                    v-model="carparkName"
+                                    style="width:150px">
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="8">
+                        <el-form-item label="车位状态：">
+                            <el-select
+                                    v-model="carParkRankValue"
+                                    placeholder="请选择车位状态"
+                                    style="width:150px">
+                                <el-option
+                                        v-for="item in carParkRank"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+            </el-form>
         </div>
         <div style="margin-left:20px;">
-            <div class="demo-input-suffix">
-                <span>车位号：</span>
-                <el-input
-                        placeholder="请输入车位号"
-                        v-model="carparkName"
-                        style="width:120px">
-                </el-input>
-                <span>车位证编号：</span>
-                <el-input
-                        placeholder="请输入车位证编号"
-                        v-model="carparkName"
-                        style="width:150px">
-                </el-input>
-                <span>车位状态：</span>
-                <el-select
-                        v-model="carParkRankValue"
-                        placeholder="请选择车位状态"
-                        style="width:150px">
-                    <el-option
-                            v-for="item in carParkRank"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </el-option>
-                </el-select>
-            </div>
             <el-table
                     ref="singleTable"
                     :data="tableData"
@@ -180,6 +191,16 @@
                     {label:'C',value:'3'},
                     {label:'D',value:'4'}
                 ],
+                form: {
+                    name: '',
+                    region: '',
+                    date1: '',
+                    date2: '',
+                    delivery: false,
+                    type: [],
+                    resource: '',
+                    desc: ''
+                },
                 carparkName:'',//停车场名称
                 carParkRankValue:''//评级
             }

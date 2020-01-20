@@ -73,12 +73,18 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item  label-width="100px" label="车位证编号：">
-                            <el-input
-                                    placeholder="请输入车位证编号"
-                                    v-model="carparkName"
+                        <el-form-item  label-width="100px" label="租赁类型：">
+                            <el-select
+                                    v-model="carParkRankValue"
+                                    placeholder="请选择租赁类型"
                                     style="width:225px">
-                            </el-input>
+                                <el-option
+                                        v-for="item in carParkRank"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -111,43 +117,49 @@
                     style="width:100%;margin-top:20px;">
                 <el-table-column
                         type="index"
-                        min-width="8%">
+                        min-width="5%">
                 </el-table-column>
                 <el-table-column
                         property="carparkname"
                         label="车位号"
-                        min-width="11%">
+                        min-width="10%">
                 </el-table-column>
                 <el-table-column
                         property="carparkaddress"
-                        label="车位证编号"
-                        min-width="12%">
+                        label="租赁人"
+                        min-width="10%">
                 </el-table-column>
                 <el-table-column
                         property="carparkrank"
-                        label="认购人"
+                        label="租赁人车牌号"
                         min-width="12%">
                 </el-table-column>
                 <el-table-column
                         property="entrytime"
-                        label="认购人电话"
-                        min-width="12%">
+                        label="租赁人电话"
+                        min-width="11%">
                 </el-table-column>
                 <el-table-column
                         property="entrytime"
-                        label="成交价格"
-                        min-width="15%">
+                        label="租赁人家庭地址"
+                        min-width="13%">
                 </el-table-column>
                 <el-table-column
                         property="entrytime"
-                        label="购入时间"
-                        min-width="15%">
+                        label="租金"
+                        min-width="11%">
+                </el-table-column>
+                <el-table-column
+                        property="entrytime"
+                        label="起止时间"
+                        min-width="10%">
                 </el-table-column>
                 <el-table-column
                         label="操作"
-                        min-width="15%">
+                        min-width="20%">
                     <el-button type="text" size="medium" icon="el-icon-edit" @click="updateCarparkInfo">修改</el-button>
                     <el-button type="text" size="medium" icon="el-icon-delete" @click="delCarparkInfo">删除</el-button>
+                    <el-button type="text" size="medium" icon="el-icon-download" @click="delCarparkInfo">导入</el-button>
                 </el-table-column>
             </el-table>
             <!--分页-->
@@ -201,16 +213,6 @@
                     {label:'C',value:'3'},
                     {label:'D',value:'4'}
                 ],
-                form: {
-                    name: '',
-                    region: '',
-                    date1: '',
-                    date2: '',
-                    delivery: false,
-                    type: [],
-                    resource: '',
-                    desc: ''
-                },
                 carparkName:'',//停车场名称
                 areaJson: '/json/address.json',
                 addressArray: [],//所有数据
@@ -271,10 +273,10 @@
                 Vue.getResource();
             },
             add(){//添加
-                window.location.href = contextPath+"/html/parklotsale/parklotsaleadd.html";
+                window.location.href = contextPath+"/html/parklotrent/parklotrentadd.html";
             },
             updateCarparkInfo(){//编辑
-                window.location.href = contextPath+"/html/parklotsale/parklotsaleedit..html";
+                window.location.href = contextPath+"/html/parklotrent/parklotrentedit.html";
             },
             delCarparkInfo(){//删除
             },

@@ -73,12 +73,18 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="8">
-                        <el-form-item  label-width="100px" label="车位证编号：">
-                            <el-input
-                                    placeholder="请输入车位证编号"
-                                    v-model="carparkName"
+                        <el-form-item  label-width="100px" label="贷款状态：">
+                            <el-select
+                                    v-model="carParkRankValue"
+                                    placeholder="请选择贷款状态"
                                     style="width:225px">
-                            </el-input>
+                                <el-option
+                                        v-for="item in carParkRank"
+                                        :key="item.value"
+                                        :label="item.label"
+                                        :value="item.value">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -116,7 +122,7 @@
                 <el-table-column
                         property="carparkname"
                         label="车位号"
-                        min-width="11%">
+                        min-width="12%">
                 </el-table-column>
                 <el-table-column
                         property="carparkaddress"
@@ -125,29 +131,30 @@
                 </el-table-column>
                 <el-table-column
                         property="carparkrank"
-                        label="认购人"
+                        label="贷款人"
                         min-width="12%">
                 </el-table-column>
                 <el-table-column
                         property="entrytime"
-                        label="认购人电话"
+                        label="贷款人电话"
                         min-width="12%">
                 </el-table-column>
                 <el-table-column
                         property="entrytime"
-                        label="成交价格"
-                        min-width="15%">
+                        label="贷款状态"
+                        min-width="11%">
                 </el-table-column>
                 <el-table-column
                         property="entrytime"
-                        label="购入时间"
-                        min-width="15%">
+                        label="逾期次数"
+                        min-width="12%">
                 </el-table-column>
                 <el-table-column
                         label="操作"
-                        min-width="15%">
+                        min-width="18%">
                     <el-button type="text" size="medium" icon="el-icon-edit" @click="updateCarparkInfo">修改</el-button>
                     <el-button type="text" size="medium" icon="el-icon-delete" @click="delCarparkInfo">删除</el-button>
+                    <el-button type="text" size="medium" icon="el-icon-download" @click="delCarparkInfo">导入</el-button>
                 </el-table-column>
             </el-table>
             <!--分页-->
@@ -166,7 +173,6 @@
         </div>
     </div>
 </div>
-
 
 
 <script src="../../js/jquery.min.js"></script>
@@ -271,10 +277,10 @@
                 Vue.getResource();
             },
             add(){//添加
-                window.location.href = contextPath+"/html/parklotsale/parklotsaleadd.html";
+                window.location.href = contextPath+"/html/parklotloan/parklotloanadd.html";
             },
             updateCarparkInfo(){//编辑
-                window.location.href = contextPath+"/html/parklotsale/parklotsaleedit..html";
+                window.location.href = contextPath+"/html/parklotloan/parklotloanedit..html";
             },
             delCarparkInfo(){//删除
             },
