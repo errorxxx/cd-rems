@@ -10,6 +10,7 @@
         [v-cloak] {
             display: none;
         }
+
         /*分页样式*/
         .el-pagination.is-background .btn-next, .el-pagination.is-background .btn-prev, .el-pagination.is-background .el-pager li {
             margin: 0 5px;
@@ -18,14 +19,15 @@
             min-width: 30px;
             border-radius: 2px;
         }
-        .activeDate{
+
+        .activeDate {
             color: #65a3ed;
             background-color: #e3f2f2;
         }
     </style>
 </head>
 <body>
-<div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:10px" >
+<div id="app" v-cloak style="width:100%;background-color: #ffffff;padding-top:10px">
     <div style="float:right;margin-right:20px;margin-top:20px;">
         <el-row>
             <el-button type="success" @click="exportData">导出</el-button>
@@ -38,11 +40,11 @@
             <span>楼盘名称：</span>
             <el-input
                     placeholder="请输入楼盘名称"
-                    v-model="carparkName"
+                    v-model="name"
                     style="width:215px">
             </el-input>
             <span>楼盘地址：</span>
-            <el-select  v-model="caddress.sheng" style="flex: 1;width:170px;" placeholder="请选择省份" @change="getCityData">
+            <el-select v-model="address.sheng" style="flex: 1;width:170px;" placeholder="请选择省份" @change="getCityData">
                 <el-option
                         v-for="item in addressArray"
                         :key="item.areacode"
@@ -51,8 +53,8 @@
                 >
                 </el-option>
             </el-select>
-            <el-select  v-model="caddress.shi" style="flex: 1;width:170px;" placeholder="请选择市区"
-                        @change="getAreaData">
+            <el-select v-model="address.shi" style="flex: 1;width:170px;" placeholder="请选择市区"
+                       @change="getAreaData">
                 <el-option
                         v-for="item in cityArray"
                         :key="item.areacode"
@@ -60,8 +62,8 @@
                         :value="item.areaname">
                 </el-option>
             </el-select>
-            <el-select  v-model="caddress.qu" style="flex: 1;width:170px;" placeholder="请选择县"
-                        @change="onAreaChanged">
+            <el-select v-model="address.qu" style="flex: 1;width:170px;" placeholder="请选择县"
+                       @change="onAreaChanged">
                 <el-option
                         v-for="item in areaArray"
                         :key="item.areacode"
@@ -73,11 +75,11 @@
         <div class="demo-input-suffix" style="margin-top:20px;">
             <span>楼盘现状：</span>
             <el-select
-                    v-model="carParkRankValue"
-                    placeholder="请选择停车场评级"
+                    v-model="nowType"
+                    placeholder="请选择楼盘现状信息"
                     style="width:210px">
                 <el-option
-                        v-for="item in carParkRank"
+                        v-for="item in nowType"
                         :key="item.value"
                         :label="item.label"
                         :value="item.value">
@@ -109,22 +111,22 @@
                     min-width="9%">
             </el-table-column>
             <el-table-column
-                    property="carparkname"
+                    property="buildingname"
                     label="楼盘名称"
                     min-width="20%">
             </el-table-column>
             <el-table-column
-                    property="carparkaddress"
+                    property="buildingaddr"
                     label="楼盘地址"
                     min-width="26%">
             </el-table-column>
             <el-table-column
-                    property="carparkrank"
+                    property="nowtypeid"
                     label="现状类型"
                     min-width="15%">
             </el-table-column>
             <el-table-column
-                    property="entrytime"
+                    property="addtime"
                     label="添加时间"
                     min-width="15%">
             </el-table-column>
@@ -166,31 +168,38 @@
     var Vue = new Vue({
         el: '#app',
         data() {
-            return{
-                totalCount:0,
-                currentPage:1,
-                pageSize:5,
+            return {
+                totalCount: 0,
+                currentPage: 1,
+                pageSize: 5,
                 tableData: [],
                 //默认值设置，可为空
-                caddress:{
+                address: {
                     sheng: '',
                     shi: '',
                     qu: '',
                 },
-                carParkRank:[
-                    {label:'A',value:'1'},
-                    {label:'B',value:'2'},
-                    {label:'C',value:'3'},
-                    {label:'D',value:'4'}
+                nowType: [
+                    {label: 'A', value: '1'},
+                    {label: 'B', value: '2'},
+                    {label: 'C', value: '3'},
+                    {label: 'D', value: '4'}
                 ],
-                carparkName:'',//停车场名称
+                buildingInfoVo: {
+                    name: '',
+                    address: '',
+                    nowTypeId: '',
+                    startTime: '',
+                    endTime: '',
+                    currentPage: 1,
+                    pageSize: 5
+                },
                 areaJson: '/json/address.json',
                 addressArray: [],//所有数据
                 cityArray: [],
                 areaArray: [],
-                carParkRankValue:'',//评级
-                dateRange:[],//默认选择日期范围
-                pickerOptions:{//日期选择参数
+                dateRange: [],//默认选择日期范围
+                pickerOptions: {//日期选择参数
                     onPick(time) {
                         //如果只选择一个时间
                         if (!time.maxDate) {
@@ -201,9 +210,9 @@
                         } else {
                             _minDate = _maxDate = null;
                         }
-                    },disabledDate(time){//不显示的时间
-                        if(_minDate && _maxDate){
-                            return time.getTime()<_minDate || time.getTime() > _maxDate
+                    }, disabledDate(time) {//不显示的时间
+                        if (_minDate && _maxDate) {
+                            return time.getTime() < _minDate || time.getTime() > _maxDate
                         }
                     }
                 }
@@ -219,51 +228,43 @@
             getResource() {//分页查询所有数据
                 var minDate = '';
                 var maxDate = '';
-                if(Vue.dateRange != null && Vue.dateRange.length > 0 ){
+                if (Vue.dateRange != null && Vue.dateRange.length > 0) {
                     minDate = Vue.dateRange[0];
                     maxDate = Vue.dateRange[1];
                 }
-                Vue.$resource(contextPath + '/carpark/getAllCarparkByPage',{
-                    carparkname:Vue.carparkName,//停车场名称
-                    carparkrank:Vue.carParkRankValue,//等级
-                    carparkaddress:Vue.caddress.sheng+Vue.caddress.shi+Vue.caddress.qu,//停车场地址
-                    minDate:minDate,//开始时间
-                    maxDate:maxDate,//结束时间
-                    currentPage:Vue.currentPage,//当前页
-                    pageSize:Vue.pageSize//每页条数
-                }).query().then(function (response) {
+                Vue.$resource(contextPath + '/buildingInfo/listAll').save(Vue.buildingInfoVo).then(function (response) {
                     Vue.tableData = response.data.data.list;
                     Vue.totalCount = response.data.data.total;
                 }).catch(function () {
-                    Vue.showMsgError("角色查询错误");
+                    Vue.showMsgError("楼盘信息查询错误");
                 });
             },
-            search(){//模糊查询
+            search() {//模糊查询
                 Vue.currentPage = 1;//当前页
                 Vue.getResource();
             },
-            add(){//添加
-                window.location.href = contextPath+"/html/BuildingInfo/AddBuildingInfo.html";
+            add() {//添加
+                window.location.href = contextPath + "/html/BuildingInfo/AddBuildingInfo.html";
             },
-            exportData(){//导出
+            exportData() {//导出
 
             },
             getAddressData() {
                 var that = Vue;
-                Vue.$http.get(contextPath+Vue.areaJson).then(function (response) {
+                Vue.$http.get(contextPath + Vue.areaJson).then(function (response) {
                     if (response.status === 200) {
                         //获取地址
                         that.addressArray = response.data.data;
                         //默认值赋值获取城市数组
-                        if(that.caddress.sheng){
+                        if (that.address.sheng) {
                             for (var ad of that.addressArray) {
-                                if (ad.areaname === that.caddress.sheng) {
+                                if (ad.areaname === that.address.sheng) {
                                     that.cityArray = ad.subarea;
                                     //---
                                     //默认赋值获取区域数组
-                                    if(that.caddress.shi){
+                                    if (that.address.shi) {
                                         for (var area of that.cityArray) {
-                                            if (area.areaname === that.caddress.shi) {
+                                            if (area. reaname === that.address.shi) {
                                                 that.areaArray = area.subarea;
                                                 break;
                                             }
@@ -278,9 +279,9 @@
             //选择省份
             getCityData(val) {
                 //清空市，和区
-                Vue.caddress.shi='';
-                Vue.caddress.qu='';
-                Vue.$emit('change', Vue.caddress);//发送改变
+                Vue.address.shi = '';
+                Vue.address.qu = '';
+                Vue.$emit('change', Vue.address);//发送改变
                 for (var ad of Vue.addressArray) {
                     if (ad.areaname === val) {
                         Vue.cityArray = ad.subarea;
@@ -290,8 +291,8 @@
             },
             getAreaData(val) {
                 //清空区
-                Vue.caddress.qu='';
-                Vue.$emit('change', Vue.caddress);//发送改变
+                Vue.address.qu = '';
+                Vue.$emit('change', Vue.address);//发送改变
                 for (var area of Vue.cityArray) {
                     if (area.areaname === val) {
                         Vue.areaArray = area.subarea;
@@ -301,17 +302,17 @@
             },
             //地区数据变动后
             onAreaChanged(val) {
-                Vue.$emit('change', Vue.caddress);//发送改变
+                Vue.$emit('change', Vue.address);//发送改变
             },
-            handleSizeChange:function(size){ //分页    初始页currentPage、初始每页数据数pagesize和数据testpage
+            handleSizeChange: function (size) { //分页    初始页currentPage、初始每页数据数pagesize和数据testpage
                 Vue.pageSize = size;
                 Vue.getResource();
             },
-            handleCurrentChange:function(currentPage){
+            handleCurrentChange: function (currentPage) {
                 Vue.currentPage = currentPage;
                 Vue.getResource();
             },
-            selectToday(arr){//选择今日
+            selectToday(arr) {//选择今日
                 $(".selectToday").addClass("activeDate");
                 $(".selectVueYear").removeClass("activeDate");
                 $(".selectVueMonth").removeClass("activeDate");
@@ -322,9 +323,9 @@
                 }
                 obj.starttime = moment(new Date().valueOf()).format('YYYY-MM-DD');
                 obj.endtime = obj.starttime;
-                Vue.dateRange = [obj.starttime,obj.endtime];
+                Vue.dateRange = [obj.starttime, obj.endtime];
             },
-            selectVueWeek(){//选择本周
+            selectVueWeek() {//选择本周
                 $(".selectVueWeek").addClass("activeDate");
                 $(".selectVueYear").removeClass("activeDate");
                 $(".selectVueMonth").removeClass("activeDate");
@@ -335,9 +336,9 @@
                 }
                 obj.starttime = moment(moment().week(moment().week()).startOf('week').add(1, 'days').valueOf()).format('YYYY-MM-DD')
                 obj.endtime = moment(moment().week(moment().week()).endOf('week').add(1, 'days').valueOf()).format('YYYY-MM-DD');
-                Vue.dateRange = [obj.starttime,obj.endtime];
+                Vue.dateRange = [obj.starttime, obj.endtime];
             },
-            selectVueMonth(){//选择本月
+            selectVueMonth() {//选择本月
                 $(".selectVueMonth").addClass("activeDate");
                 $(".selectVueYear").removeClass("activeDate");
                 $(".selectVueWeek").removeClass("activeDate");
@@ -348,9 +349,9 @@
                 }
                 obj.starttime = moment(moment().month(moment().month()).startOf('month').valueOf()).format('YYYY-MM-DD');
                 obj.endtime = moment(moment().month(moment().month()).endOf('month').valueOf()).format('YYYY-MM-DD');
-                Vue.dateRange = [obj.starttime,obj.endtime];
+                Vue.dateRange = [obj.starttime, obj.endtime];
             },
-            selectVueYear(){//选择本年
+            selectVueYear() {//选择本年
                 $(".selectVueYear").addClass("activeDate");
                 $(".selectVueMonth").removeClass("activeDate");
                 $(".selectVueWeek").removeClass("activeDate");
@@ -361,7 +362,7 @@
                 }
                 obj.starttime = moment(moment().year(moment().year()).startOf('year').valueOf()).format('YYYY-MM-DD');
                 obj.endtime = moment(moment().year(moment().year()).endOf('year').valueOf()).format('YYYY-MM-DD');
-                Vue.dateRange = [obj.starttime,obj.endtime];
+                Vue.dateRange = [obj.starttime, obj.endtime];
             }
         }
     })

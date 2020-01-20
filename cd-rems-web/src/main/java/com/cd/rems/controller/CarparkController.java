@@ -2,7 +2,6 @@ package com.cd.rems.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.cd.rems.api.CarparkApi;
-import com.cd.rems.entity.TCarpark;
 import com.cd.rems.model.CarparkVo;
 import com.cd.rems.utils.RetCode;
 import com.cd.rems.utils.RetResult;
@@ -28,6 +27,7 @@ public class CarparkController {
 
     /**
      * 后台停车场基本信息首页分页显示
+     *
      * @param carparkVo
      * @param currentPage
      * @param pageSize
@@ -36,35 +36,35 @@ public class CarparkController {
     @RequestMapping("/getAllCarparkByPage")
     public RetResult getAllCarparkByPage(
             CarparkVo carparkVo,
-            @RequestParam(value="currentPage")int currentPage,
-            @RequestParam(value="pageSize")int pageSize) {
-        int currentPageIndex = (currentPage-1)*pageSize;
+            @RequestParam(value = "currentPage") int currentPage,
+            @RequestParam(value = "pageSize") int pageSize) {
+        int currentPageIndex = (currentPage - 1) * pageSize;
         int total = 0;
-        List<CarparkVo>  carparkVos = new ArrayList<>();
-        Map<String,Object> map = new HashMap<>();
-        if((carparkVo.getCarparkname() == null || carparkVo.getCarparkname() == "") &&
-                carparkVo.getCarparkrank() == null  &&
-                (carparkVo.getCarparkaddress() == null || carparkVo.getCarparkaddress() == "") &&
-                (carparkVo.getMinDate() == null || carparkVo.getMinDate() == "") &&
-                (carparkVo.getMaxDate() == null ||  carparkVo.getMaxDate() == "")){//没有查询条件
+        List<CarparkVo> carparkVos = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        if ((carparkVo.getCarparkname() == null || "".equals(carparkVo.getCarparkname())) &&
+                carparkVo.getCarparkrank() == null &&
+                (carparkVo.getCarparkaddress() == null || "".equals(carparkVo.getCarparkaddress())) &&
+                (carparkVo.getMinDate() == null || "".equals(carparkVo.getMinDate())) &&
+                (carparkVo.getMaxDate() == null || "".equals(carparkVo.getMaxDate()))) {//没有查询条件
             total = carparkApi.selectCountAll();
-            carparkVos = carparkApi.selectAllByPage(currentPageIndex,pageSize);
-            map.put("list",carparkVos);
-            map.put("total",total);
-            return new RetResult(RetCode.SUCCESS.getCode(),"success",map);//成功
-        }else{//有查询条件
-            if(carparkVo.getCarparkrank() == null ){
+            carparkVos = carparkApi.selectAllByPage(currentPageIndex, pageSize);
+            map.put("list", carparkVos);
+            map.put("total", total);
+            return new RetResult(RetCode.SUCCESS.getCode(), "success", map);//成功
+        } else {//有查询条件
+            if (carparkVo.getCarparkrank() == null) {
                 carparkVo.setCarparkrank(-1);
             }
-            if(carparkVo.getMinDate() == null || carparkVo.getMinDate() == ""){
+            if (carparkVo.getMinDate() == null || "".equals(carparkVo.getMinDate())) {
                 carparkVo.setMinDate("1900-01-01");
                 carparkVo.setMaxDate("2999-01-01");
             }
             total = carparkApi.selectCountAllByCondition(carparkVo);
-            carparkVos = carparkApi.selectAllByConditionAndPage(carparkVo,currentPageIndex,pageSize);
-            map.put("list",carparkVos);
-            map.put("total",total);
-            return new RetResult(RetCode.SUCCESS.getCode(),"success",map);//成功
+            carparkVos = carparkApi.selectAllByConditionAndPage(carparkVo, currentPageIndex, pageSize);
+            map.put("list", carparkVos);
+            map.put("total", total);
+            return new RetResult(RetCode.SUCCESS.getCode(), "success", map);//成功
         }
     }
 }

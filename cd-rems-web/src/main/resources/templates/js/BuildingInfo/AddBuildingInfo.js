@@ -153,9 +153,9 @@ var vueObject = new Vue({
     },
     methods: {
         add: function (form) {//添加
-            Vue.$refs[form].validate(function (valid) {
+            vueObject.$refs[form].validate(function (valid) {
                 if (valid) {
-                    Vue.set(Vue.buildingInfo, "buildingaddr", vueObject.buildingInfo.sheng + vueObject.buildingInfo.shi + vueObject.buildingInfo.qu +vueObject.buildingInfo.xxdz);
+                    Vue.set(vueObject.buildingInfo, "buildingaddr", vueObject.buildingInfo.sheng + vueObject.buildingInfo.shi + vueObject.buildingInfo.qu + vueObject.buildingInfo.xxdz);
                     vueObject.$resource(contextPath + '/buildingInfo/add').save(vueObject.buildingInfo).then(function (response) {
                         window.location.href = contextPath + "/html/BuildingInfo/BuildingInfo.html";
                     }).catch(function () {

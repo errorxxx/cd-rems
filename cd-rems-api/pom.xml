@@ -11,6 +11,11 @@
     <artifactId>cd-rems-api</artifactId>
     <dependencies>
         <!--添加依赖-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.10</version>
+        </dependency>
     </dependencies>
 
 </project>
