@@ -110,6 +110,12 @@
             })
         },
         methods: {
+            handleSizeChange(val){
+
+            },
+            handleCurrentChange(val){
+
+            },
             getResource() {
                 Vue.$resource(contextPath + '/user/getAllRoles').query().then(function (response) {
                     Vue.tableData = response.data;

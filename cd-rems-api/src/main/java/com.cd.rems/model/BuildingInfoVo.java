@@ -2,13 +2,15 @@ package com.cd.rems.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @Description 查询楼盘信息类
  * @Autor 谢修继
  * @Date 2020/1/19 15:10
  */
 @Data
-public class BuildingInfoVo {
+public class BuildingInfoVo implements Serializable {
     String name;
     String address;
     String nowTypeId;
@@ -16,4 +18,5 @@ public class BuildingInfoVo {
     String endTime;
     Integer currentPage;
     Integer pageSize;
+    Integer currentSize;
 }

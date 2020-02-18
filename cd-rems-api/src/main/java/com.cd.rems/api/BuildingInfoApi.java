@@ -1,6 +1,7 @@
 package com.cd.rems.api;
 
 import com.cd.rems.entity.TBuildinginfo;
+import com.cd.rems.model.BuildingInfoVo;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface BuildingInfoApi {
      * @Param
      * @return
      **/
-    List<TBuildinginfo> selectAll();
+    List<TBuildinginfo> selectAll(BuildingInfoVo info);
 
 
     /*
@@ -29,4 +30,24 @@ public interface BuildingInfoApi {
      * @return
      **/
     void addBuildingInfo(TBuildinginfo buildinginfo);
+
+
+    /*
+     * @Author 谢修继
+     * @Description 删除建筑信息
+     * @Date 2020/1/20 15:25
+     * @Param
+     * @return
+     **/
+    boolean delete(TBuildinginfo buildinginfo);
+
+
+    /*
+     * @Author 谢修继
+     * @Description 通过条件分页查询楼盘信息
+     * @Date 2020/1/20 16:10
+     * @Param
+     * @return
+     **/
+    List<TBuildinginfo> selectByPage(BuildingInfoVo info);
 }

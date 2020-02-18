@@ -40,7 +40,7 @@
             <span>楼盘名称：</span>
             <el-input
                     placeholder="请输入楼盘名称"
-                    v-model="name"
+                    v-model="buildingInfoVo.name"
                     style="width:215px">
             </el-input>
             <span>楼盘地址：</span>
@@ -75,7 +75,7 @@
         <div class="demo-input-suffix" style="margin-top:20px;">
             <span>楼盘现状：</span>
             <el-select
-                    v-model="nowType"
+                    v-model="buildingInfoVo.nowTypeId"
                     placeholder="请选择楼盘现状信息"
                     style="width:210px">
                 <el-option
@@ -102,6 +102,7 @@
         </div>
 
         <el-table
+                @cell-mouse-enter="getRow"
                 ref="singvarable"
                 :data="tableData"
                 highlight-current-row
@@ -133,8 +134,8 @@
             <el-table-column
                     label="操作"
                     min-width="15%">
-                <el-button type="text" size="medium" icon="el-icon-edit">修改</el-button>
-                <el-button type="text" size="medium" icon="el-icon-devare">删除</el-button>
+                <el-button type="text" size="medium" icon="el-icon-edit" @click="editBuildingInfo()">修改</el-button>
+                <el-button type="text" size="medium" icon="el-icon-devare" @click="deleteBuildingInfo()">删除</el-button>
             </el-table-column>
         </el-table>
         <!--分页-->
@@ -162,210 +163,6 @@
 <!-- import JavaScript -->
 <script src="../../vue/index.js"></script>
 <script src="../../js/util.js"></script>
-<script>
-    var _minDate = null;
-    var _maxDate = null;
-    var Vue = new Vue({
-        el: '#app',
-        data() {
-            return {
-                totalCount: 0,
-                currentPage: 1,
-                pageSize: 5,
-                tableData: [],
-                //默认值设置，可为空
-                address: {
-                    sheng: '',
-                    shi: '',
-                    qu: '',
-                },
-                nowType: [
-                    {label: 'A', value: '1'},
-                    {label: 'B', value: '2'},
-                    {label: 'C', value: '3'},
-                    {label: 'D', value: '4'}
-                ],
-                buildingInfoVo: {
-                    name: '',
-                    address: '',
-                    nowTypeId: '',
-                    startTime: '',
-                    endTime: '',
-                    currentPage: 1,
-                    pageSize: 5
-                },
-                areaJson: '/json/address.json',
-                addressArray: [],//所有数据
-                cityArray: [],
-                areaArray: [],
-                dateRange: [],//默认选择日期范围
-                pickerOptions: {//日期选择参数
-                    onPick(time) {
-                        //如果只选择一个时间
-                        if (!time.maxDate) {
-                            // var timeRange = 6 * 24 * 60 * 60 * 1000; //6天
-                            // _minDate = time.minDate.getTime() - timeRange;
-                            // _maxDate = time.minDate.getTime() + timeRange;
-                            //选择了两个时间
-                        } else {
-                            _minDate = _maxDate = null;
-                        }
-                    }, disabledDate(time) {//不显示的时间
-                        if (_minDate && _maxDate) {
-                            return time.getTime() < _minDate || time.getTime() > _maxDate
-                        }
-                    }
-                }
-            }
-        },
-        mounted: function () {
-            Vue.nextTick(function () {
-                Vue.getAddressData();
-                Vue.getResource();
-            })
-        },
-        methods: {
-            getResource() {//分页查询所有数据
-                var minDate = '';
-                var maxDate = '';
-                if (Vue.dateRange != null && Vue.dateRange.length > 0) {
-                    minDate = Vue.dateRange[0];
-                    maxDate = Vue.dateRange[1];
-                }
-                Vue.$resource(contextPath + '/buildingInfo/listAll').save(Vue.buildingInfoVo).then(function (response) {
-                    Vue.tableData = response.data.data.list;
-                    Vue.totalCount = response.data.data.total;
-                }).catch(function () {
-                    Vue.showMsgError("楼盘信息查询错误");
-                });
-            },
-            search() {//模糊查询
-                Vue.currentPage = 1;//当前页
-                Vue.getResource();
-            },
-            add() {//添加
-                window.location.href = contextPath + "/html/BuildingInfo/AddBuildingInfo.html";
-            },
-            exportData() {//导出
-
-            },
-            getAddressData() {
-                var that = Vue;
-                Vue.$http.get(contextPath + Vue.areaJson).then(function (response) {
-                    if (response.status === 200) {
-                        //获取地址
-                        that.addressArray = response.data.data;
-                        //默认值赋值获取城市数组
-                        if (that.address.sheng) {
-                            for (var ad of that.addressArray) {
-                                if (ad.areaname === that.address.sheng) {
-                                    that.cityArray = ad.subarea;
-                                    //---
-                                    //默认赋值获取区域数组
-                                    if (that.address.shi) {
-                                        for (var area of that.cityArray) {
-                                            if (area. reaname === that.address.shi) {
-                                                that.areaArray = area.subarea;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                })
-            },
-            //选择省份
-            getCityData(val) {
-                //清空市，和区
-                Vue.address.shi = '';
-                Vue.address.qu = '';
-                Vue.$emit('change', Vue.address);//发送改变
-                for (var ad of Vue.addressArray) {
-                    if (ad.areaname === val) {
-                        Vue.cityArray = ad.subarea;
-                        return
-                    }
-                }
-            },
-            getAreaData(val) {
-                //清空区
-                Vue.address.qu = '';
-                Vue.$emit('change', Vue.address);//发送改变
-                for (var area of Vue.cityArray) {
-                    if (area.areaname === val) {
-                        Vue.areaArray = area.subarea;
-                        return
-                    }
-                }
-            },
-            //地区数据变动后
-            onAreaChanged(val) {
-                Vue.$emit('change', Vue.address);//发送改变
-            },
-            handleSizeChange: function (size) { //分页    初始页currentPage、初始每页数据数pagesize和数据testpage
-                Vue.pageSize = size;
-                Vue.getResource();
-            },
-            handleCurrentChange: function (currentPage) {
-                Vue.currentPage = currentPage;
-                Vue.getResource();
-            },
-            selectToday(arr) {//选择今日
-                $(".selectToday").addClass("activeDate");
-                $(".selectVueYear").removeClass("activeDate");
-                $(".selectVueMonth").removeClass("activeDate");
-                $(".selectVueWeek").removeClass("activeDate");
-                var obj = {
-                    starttime: '',
-                    endtime: ''
-                }
-                obj.starttime = moment(new Date().valueOf()).format('YYYY-MM-DD');
-                obj.endtime = obj.starttime;
-                Vue.dateRange = [obj.starttime, obj.endtime];
-            },
-            selectVueWeek() {//选择本周
-                $(".selectVueWeek").addClass("activeDate");
-                $(".selectVueYear").removeClass("activeDate");
-                $(".selectVueMonth").removeClass("activeDate");
-                $(".selectToday").removeClass("activeDate");
-                var obj = {
-                    starttime: '',
-                    endtime: ''
-                }
-                obj.starttime = moment(moment().week(moment().week()).startOf('week').add(1, 'days').valueOf()).format('YYYY-MM-DD')
-                obj.endtime = moment(moment().week(moment().week()).endOf('week').add(1, 'days').valueOf()).format('YYYY-MM-DD');
-                Vue.dateRange = [obj.starttime, obj.endtime];
-            },
-            selectVueMonth() {//选择本月
-                $(".selectVueMonth").addClass("activeDate");
-                $(".selectVueYear").removeClass("activeDate");
-                $(".selectVueWeek").removeClass("activeDate");
-                $(".selectToday").removeClass("activeDate");
-                var obj = {
-                    starttime: '',
-                    endtime: ''
-                }
-                obj.starttime = moment(moment().month(moment().month()).startOf('month').valueOf()).format('YYYY-MM-DD');
-                obj.endtime = moment(moment().month(moment().month()).endOf('month').valueOf()).format('YYYY-MM-DD');
-                Vue.dateRange = [obj.starttime, obj.endtime];
-            },
-            selectVueYear() {//选择本年
-                $(".selectVueYear").addClass("activeDate");
-                $(".selectVueMonth").removeClass("activeDate");
-                $(".selectVueWeek").removeClass("activeDate");
-                $(".selectToday").removeClass("activeDate");
-                var obj = {
-                    starttime: '',
-                    endtime: ''
-                }
-                obj.starttime = moment(moment().year(moment().year()).startOf('year').valueOf()).format('YYYY-MM-DD');
-                obj.endtime = moment(moment().year(moment().year()).endOf('year').valueOf()).format('YYYY-MM-DD');
-                Vue.dateRange = [obj.starttime, obj.endtime];
-            }
-        }
-    })
-</script>
+<script src="../../js/BuildingInfo/BuildingInfo.js"></script>
 </body>
 </html>

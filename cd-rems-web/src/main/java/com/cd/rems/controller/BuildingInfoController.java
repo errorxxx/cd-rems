@@ -34,14 +34,16 @@ public class BuildingInfoController {
     @PostMapping("/listAll")
     public RetResult listAllBuildingInfo(@RequestBody BuildingInfoVo param) {
         HashMap<String, Object> map = new HashMap<>();
-        List<TBuildinginfo> tBuildinginfos = this.buildingInfoApi.selectAll();
+        List<TBuildinginfo> all = this.buildingInfoApi.selectAll(param);
+        List<TBuildinginfo> tBuildinginfos = this.buildingInfoApi.selectByPage(param);
         map.put("list", tBuildinginfos);
-        map.put("total", tBuildinginfos.size());
+        map.put("total", all.size());
         return new RetResult(RetCode.SUCCESS.getCode(), "success", map);//成功
     }
 
     @PostMapping("/delete")
-    public RetResult deleteBuildingInfo(@RequestBody BuildingInfoVo param) {
-        return null;
+    public RetResult deleteBuildingInfo(@RequestBody TBuildinginfo buildingInfo) {
+        boolean deleted = this.buildingInfoApi.delete(buildingInfo);
+        return deleted ? new RetResult(RetCode.SUCCESS.getCode(), "删除楼盘信息成功!", null) : new RetResult(RetCode.FAIL.getCode(), "删除楼盘信息失败!");
     }
 }
